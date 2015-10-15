@@ -1,0 +1,9 @@
+<phpunit
+        bootstrap                               = "bootstrap.php"
+        convertErrorsToExceptions               = "true"
+        convertNoticesToExceptions              = "true"
+        convertWarningsToExceptions             = "true"
+        beStrictAboutTestsThatDoNotTestAnything = "true"
+        beStrictAboutTestSize                   = "true"
+>
+</phpunit>
