@@ -768,11 +768,21 @@ trait Joinable {
 	private $joins = [];
 
 	public function innerJoin($table, $condition, $binds = null) {
-		return $this->join('INNER', $table, $condition, $binds);
+		$t = 'INNER';
+
+		if(func_num_args() > 2)
+			return $this->join($t, $table, $condition, $binds);
+		else
+			return $this->join($t, $table, $condition);
 	}
 
 	public function leftJoin($table, $condition, $binds = null) {
-		return $this->join('LEFT', $table, $condition, $binds);
+		$t = 'LEFT';
+
+		if(func_num_args() > 2)
+			return $this->join($t, $table, $condition, $binds);
+		else
+			return $this->join($t, $table, $condition);
 	}
 
 	private function join($type, $table, $condition) {
@@ -904,9 +914,28 @@ class Select extends Query
 	use Orderable;
 	use Limitable;
 
+	/**
+	 *
+	 * @var Literal
+	 */
+	private $columns = [];
+
+	public function __construct($table)
+	{
+		parent::__construct($table);
+
+		$this->where = new Where;
+	}
+
 	public function toString(Quote $quote)
 	{
-		$sql = 'SELECT * FROM ' . $this->table->toString($quote);
+		if (!$this->columns) {
+			throw new Exception('You must specify columns');
+		}
+
+		$sql = 'SELECT ';
+		$sql .= $this->columnsToString($quote);
+		$sql .= ' FROM ' . $this->table->toString($quote);
 
 		$sql = $this->joinsConcatSql($quote, $sql);
 		$sql = $this->whereConcatSql($quote, $sql);
@@ -916,6 +945,71 @@ class Select extends Query
 
 		return $sql;
 	}
+
+	private function columnsToString(Quote $quote) {
+		$list = [];
+
+		foreach ($this->columns as $alias => $column) {
+			if (ctype_digit((string)$alias) || $alias === '*') {
+				$list[] = $column->toString($quote);
+			} else {
+				$list[] = $column->toString($quote) . ' AS ' . $quote->identifier($alias);
+			}
+		}
+
+		return implode(', ', $list);
+	}
+
+	public function column($column, $alias = null) {
+		$e = null;
+
+		if ($alias !== null) {
+			if (!is_string($alias)) {
+				throw new Exception('Alias must be a string');
+			}
+
+			if ($alias === '*') {
+				throw new Exception("Alias name '*' is not alowed");
+			}
+
+			if (ctype_digit((string)$alias)) {
+				throw new Exception('Numerical aliases is not allowed');
+			}
+
+			if (isset($this->columns[$alias])) {
+				throw new Exception('Non unique alias name: ' . $alias);
+			}
+		}
+
+		if ($column === '*') {
+			if ($alias !== null) {
+				throw new Exception("Can't set alias to '*'");
+			}
+
+			if (isset($this->columns['*'])) {
+				throw new Exception("Multiple definition of '*'");
+			}
+
+			$alias = '*';
+
+			$e = new PlainSql('*');
+
+		} elseif ($column instanceof Literal) {
+			$e = $column;
+
+		} elseif (is_string($column)) {
+			$e = new Identifier($column);
+
+		} else {
+			throw new Exception('Column name or Literal expected');
+		}
+
+		if ($alias !== null) {
+			$this->columns[$alias] = $e;
+		} else {
+			$this->columns[] = $e;
+		}
+	}
 }
 
 class D2
@@ -923,7 +1017,7 @@ class D2
 
 	public function select($table)
 	{
-
+		return new Select($table);
 	}
 
 	public function update($table)
