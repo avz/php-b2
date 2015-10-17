@@ -432,15 +432,8 @@ class Insert extends Query
 
 }
 
-trait Whereable
-{
-	/**
-	 *
-	 * @var Where
-	 */
-	private $where;
-
-	private function wherePrepared($prepared, array $binds = [])
+abstract class WhereUpdateCommon {
+	static private function prepared($prepared, array $binds = [])
 	{
 		$binds = array_map(
 			function ($value) {
@@ -451,7 +444,7 @@ trait Whereable
 		return new PlainSql($prepared, $binds);
 	}
 
-	private function whereFieldEqual($columnName, $columnValue)
+	static private function fieldEqual($columnName, $columnValue)
 	{
 		$e = null;
 
@@ -479,34 +472,70 @@ trait Whereable
 		return $e;
 	}
 
-	public function where($fieldNameOrPrepared, $valueOrBinds = null/* ... */)
+	static public function extractExpressionsFromArgs(array $args)
 	{
-		$where = clone $this->where;
+		$numArgs = sizeof($args);
+
+		if (!$numArgs)
+			throw new Exception('Not enough arguments');
+
+		$fieldNameOrPrepared = $args[0];
+		$valueOrBinds = null;
+
+		if ($numArgs > 1)
+			$valueOrBinds = $args[1];
+
+		$expressions = [];
 
 		if (is_string($fieldNameOrPrepared)) {
-			if (PlainSql::hasPlaceholders($fieldNameOrPrepared) || func_num_args() === 1) {
-				if (func_num_args() == 1) {
+			if (PlainSql::hasPlaceholders($fieldNameOrPrepared) || $numArgs === 1) {
+				if ($numArgs == 1) {
 					$valueOrBinds = [];
 				} else {
 					if (!is_array($valueOrBinds))
 						throw new Exception('Binds must be an array');
 				}
 
-				$where->addAnd($this->wherePrepared('(' . $fieldNameOrPrepared . ')', $valueOrBinds));
+				$expressions[] = self::prepared('(' . $fieldNameOrPrepared . ')', $valueOrBinds);
 			} else {
-				if (func_num_args() !== 2)
+				if ($numArgs !== 2)
 					throw new Exception('Exactly 2 arguments expected');
 
-				$where->addAnd($this->whereFieldEqual($fieldNameOrPrepared, $valueOrBinds));
+				$expressions[] = self::fieldEqual($fieldNameOrPrepared, $valueOrBinds);
 			}
 		} else if ($fieldNameOrPrepared instanceof Literal) {
-			$where->addAnd($fieldNameOrPrepared);
+
+			$expressions[] = $fieldNameOrPrepared;
+
 		} else if (is_array($fieldNameOrPrepared)) {
+
 			foreach ($fieldNameOrPrepared as $column => $value) {
-				$where->addAnd($this->whereFieldEqual($column, $value));
+				$expressions[] = self::fieldEqual($column, $value);
 			}
 		} else {
-			throw new Exception('Incorrect WHERE definition');
+			throw new Exception('Incorrect expression definition');
+		}
+
+		return $expressions;
+	}
+}
+
+trait Whereable
+{
+	/**
+	 *
+	 * @var Where
+	 */
+	private $where;
+
+	public function where($fieldNameOrPrepared, $valueOrBinds = null/* ... */)
+	{
+		$where = clone $this->where;
+
+		$expressions = WhereUpdateCommon::extractExpressionsFromArgs(func_get_args());
+
+		foreach ($expressions as $expression) {
+			$where->addAnd($expression);
 		}
 
 		$this->where = $where;
