@@ -1,12 +1,12 @@
 <?php
 
-namespace common\d2\tests;
+namespace d2\tests;
 
 class SimpleGroupable
 {
-	use \common\d2\Groupable;
+	use \d2\Groupable;
 
-	public function toString(\common\d2\Quote $q)
+	public function toString(\d2\Quote $q)
 	{
 		return $this->groupToString($q);
 	}
@@ -28,12 +28,12 @@ class GroupableTest extends Base
 		$this->assertEquals('GROUP BY `col`, `col2` DESC', $s->toString($this->quoter()));
 
 		$s = new SimpleGroupable;
-		$s->groupBy(new \common\d2\PlainSql('hello'), 'DESC');
+		$s->groupBy(new \d2\PlainSql('hello'), 'DESC');
 		$this->assertEquals('GROUP BY hello DESC', $s->toString($this->quoter()));
 	}
 
 	/**
-	 * @expectedException common\d2\Exception
+	 * @expectedException d2\Exception
 	 * @expectedExceptionMessage Direction must be ASC or DESC
 	 */
 	public function testInvalidDirection() {
@@ -42,7 +42,7 @@ class GroupableTest extends Base
 	}
 
 	/**
-	 * @expectedException common\d2\Exception
+	 * @expectedException d2\Exception
 	 * @expectedExceptionMessage Only string  or Literal allowed
 	 */
 	public function testInvalidNullDesc() {
@@ -51,7 +51,7 @@ class GroupableTest extends Base
 	}
 
 	/**
-	 * @expectedException common\d2\Exception
+	 * @expectedException d2\Exception
 	 * @expectedExceptionMessage Only string  or Literal allowed
 	 */
 	public function testInvalidColumn() {

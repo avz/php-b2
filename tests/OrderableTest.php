@@ -1,12 +1,12 @@
 <?php
 
-namespace common\d2\tests;
+namespace d2\tests;
 
 class SimpleOrderable
 {
-	use \common\d2\Orderable;
+	use \d2\Orderable;
 
-	public function toString(\common\d2\Quote $q)
+	public function toString(\d2\Quote $q)
 	{
 		return $this->orderToString($q);
 	}
@@ -28,7 +28,7 @@ class OrderableTest extends Base
 		$this->assertEquals('ORDER BY `col`, `col2` DESC', $s->toString($this->quoter()));
 
 		$s = new SimpleOrderable;
-		$s->orderBy(new \common\d2\PlainSql('hello'), 'DESC');
+		$s->orderBy(new \d2\PlainSql('hello'), 'DESC');
 		$this->assertEquals('ORDER BY hello DESC', $s->toString($this->quoter()));
 
 		$s = new SimpleOrderable;
@@ -37,7 +37,7 @@ class OrderableTest extends Base
 	}
 
 	/**
-	 * @expectedException common\d2\Exception
+	 * @expectedException d2\Exception
 	 * @expectedExceptionMessage Direction must be ASC or DESC
 	 */
 	public function testInvalidDirection() {
@@ -46,7 +46,7 @@ class OrderableTest extends Base
 	}
 
 	/**
-	 * @expectedException common\d2\Exception
+	 * @expectedException d2\Exception
 	 * @expectedExceptionMessage ORDER BY NULL DESC is not allowed
 	 */
 	public function testInvalidNullDesc() {
@@ -55,7 +55,7 @@ class OrderableTest extends Base
 	}
 
 	/**
-	 * @expectedException common\d2\Exception
+	 * @expectedException d2\Exception
 	 * @expectedExceptionMessage Only string, null or Literal allowed
 	 */
 	public function testInvalidColumn() {

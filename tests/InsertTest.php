@@ -1,29 +1,29 @@
 <?php
-namespace common\d2\tests;
+namespace d2\tests;
 
 class InsertTest extends Base
 {
 	/**
-	 * @expectedException common\d2\Exception
+	 * @expectedException d2\Exception
 	 * @expectedExceptionMessage Empty INSERT
 	 */
 	public function testEmpty() {
-		$insert = new \common\d2\Insert('ttt');
+		$insert = new \d2\Insert('ttt');
 		$insert->toString($this->quoter());
 	}
 
 	/**
-	 * @expectedException common\d2\Exception
+	 * @expectedException d2\Exception
 	 * @expectedExceptionMessage All rows in single query must have identical fields
 	 */
 	public function testMismatch() {
-		$insert = new \common\d2\Insert('ttt');
+		$insert = new \d2\Insert('ttt');
 		$insert->row(['hello' => 'world']);
 		$insert->row(['hello1' => 'hello']);
 	}
 
 	public function testColumnsSort() {
-		$insert = new \common\d2\Insert('ttt');
+		$insert = new \d2\Insert('ttt');
 		$insert->row(['b' => 2, 'a' => 1, 'c' => 3]);
 		$insert->row(['c' => 3, 'a' => 1, 'b' => 2]);
 		$insert->row(['b' => 2, 'c' => 3, 'a' => 1]);
@@ -34,14 +34,14 @@ class InsertTest extends Base
 	}
 
 	public function testOneRow() {
-		$insert = new \common\d2\Insert('ttt');
+		$insert = new \d2\Insert('ttt');
 		$insert->row(['hello' => 'world']);
 
 		$this->assertEquals("INSERT INTO `ttt`(`hello`) VALUES ('world')", $insert->toString($this->quoter()));
 	}
 
 	public function testMultiRows() {
-		$insert = new \common\d2\Insert('ttt');
+		$insert = new \d2\Insert('ttt');
 		$insert->row(['hello' => 'world']);
 		$insert->row(['hello' => 'hello']);
 
@@ -51,7 +51,7 @@ class InsertTest extends Base
 
 		$this->assertEquals("INSERT INTO `ttt`(`hello`) VALUES ('world'), ('hello'), ('foo')", $insert->toString($this->quoter()));
 
-		$insert = new \common\d2\Insert('aaa');
+		$insert = new \d2\Insert('aaa');
 		$insert->values([['hello' => 'world'], ['hello' => 'hello']]);
 
 		$this->assertEquals("INSERT INTO `aaa`(`hello`) VALUES ('world'), ('hello')", $insert->toString($this->quoter()));
@@ -61,7 +61,7 @@ class InsertTest extends Base
 	}
 
 	public function testIgnore() {
-		$insert = new \common\d2\Insert('ttt');
+		$insert = new \d2\Insert('ttt');
 		$insert->row(['hello' => 'world']);
 		$insert->ignore();
 
@@ -69,7 +69,7 @@ class InsertTest extends Base
 	}
 
 	public function testReplace() {
-		$insert = new \common\d2\Insert('ttt');
+		$insert = new \d2\Insert('ttt');
 		$insert->row(['hello' => 'world']);
 		$insert->replace();
 
@@ -77,7 +77,7 @@ class InsertTest extends Base
 	}
 
 	public function testOnDuplicateUpdate() {
-		$insert = new \common\d2\Insert('t');
+		$insert = new \d2\Insert('t');
 		$insert->row(['a' => 'b', 'c' => 'd', 'e' => 'f']);
 		$insert->onDuplicateKeyUpdate();
 		$this->assertEquals(
@@ -97,7 +97,7 @@ class InsertTest extends Base
 			$insert->toString($this->quoter())
 		);
 
-		$insert->onDuplicateKeyUpdate(['a' => new \common\d2\PlainSql('1 + 1')]);
+		$insert->onDuplicateKeyUpdate(['a' => new \d2\PlainSql('1 + 1')]);
 
 		$this->assertEquals(
 			"INSERT INTO `t`(`a`, `c`, `e`) VALUES ('b', 'd', 'f') ON DUPLICATE KEY UPDATE `a` = 1 + 1, `c` = VALUES(`c`), `e` = VALUES(`e`)",
@@ -105,7 +105,7 @@ class InsertTest extends Base
 		);
 
 
-		$insert = new \common\d2\Insert('b');
+		$insert = new \d2\Insert('b');
 		$insert->onDuplicateKeyUpdate('e');
 		$insert->row(['e' => 'f']);
 
@@ -116,8 +116,8 @@ class InsertTest extends Base
 	}
 
 	public function testComplexInValue() {
-		$insert = new \common\d2\Insert('t');
-		$insert->row(['a' => new \common\d2\PlainSql('1000 + 100')]);
+		$insert = new \d2\Insert('t');
+		$insert->row(['a' => new \d2\PlainSql('1000 + 100')]);
 		$this->assertEquals(
 			'INSERT INTO `t`(`a`) VALUES (1000 + 100)',
 			$insert->toString($this->quoter())

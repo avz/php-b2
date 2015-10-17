@@ -1,18 +1,18 @@
 <?php
 
-namespace common\d2\tests;
+namespace d2\tests;
 
 class SimpleWhereable
 {
 
-	use \common\d2\Whereable;
+	use \d2\Whereable;
 
 	public function __construct()
 	{
-		$this->where = new \common\d2\Where;
+		$this->where = new \d2\Where;
 	}
 
-	public function toString(\common\d2\Quote $q)
+	public function toString(\d2\Quote $q)
 	{
 		return $this->whereToString($q);
 	}
@@ -36,11 +36,11 @@ class WhereableTest extends Base
 		$this->assertEquals("(`column` = '10')", $q->toString($this->quoter()));
 
 		$q = new SimpleWhereable();
-		$q->where('column', new \common\d2\Identifier('column2'));
+		$q->where('column', new \d2\Identifier('column2'));
 		$this->assertEquals("(`column` = `column2`)", $q->toString($this->quoter()));
 
 		$q = new SimpleWhereable();
-		$q->where('column', new \common\d2\PlainSql('NOW()'));
+		$q->where('column', new \d2\PlainSql('NOW()'));
 		$this->assertEquals("(`column` = NOW())", $q->toString($this->quoter()));
 	}
 
@@ -77,12 +77,12 @@ class WhereableTest extends Base
 		$this->assertEquals("(`column` IN('value1') AND `column2` IN('value2'))", $q->toString($this->quoter()));
 
 		$q = new SimpleWhereable();
-		$q->where('column2', [new \common\d2\PlainSql("NOW()"), new \common\d2\PlainSql("TODAY()")]);
+		$q->where('column2', [new \d2\PlainSql("NOW()"), new \d2\PlainSql("TODAY()")]);
 		$this->assertEquals("`column2` IN(NOW(), TODAY())", $q->toString($this->quoter()));
 	}
 
 	/**
-	 * @expectedException common\d2\Exception
+	 * @expectedException d2\Exception
 	 * @expectedExceptionMessage IN is empty
 	 */
 	public function testColumnInEmpty()
@@ -93,7 +93,7 @@ class WhereableTest extends Base
 	}
 
 	/**
-	 * @expectedException common\d2\Exception
+	 * @expectedException d2\Exception
 	 * @expectedExceptionMessage Object is not allowed
 	 */
 	public function testInvalidArgumentException()

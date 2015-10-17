@@ -1,6 +1,6 @@
 <?php
 
-namespace common\d2;
+namespace d2;
 
 class Exception extends \Exception
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace common\d2\tests;
+namespace d2\tests;
 
 class SimpleLimitable
 {
-	use \common\d2\Limitable;
+	use \d2\Limitable;
 
-	public function toString(\common\d2\Quote $q)
+	public function toString(\d2\Quote $q)
 	{
 		return $this->limitToString($q);
 	}
@@ -36,7 +36,7 @@ class LimitableTest extends Base
 	}
 
 	/**
-	 * @expectedException common\d2\Exception
+	 * @expectedException d2\Exception
 	 * @expectedExceptionMessage OFFSET without LIMIT
 	 */
 	public function testOffsetWithoutLimit() {
@@ -47,7 +47,7 @@ class LimitableTest extends Base
 	}
 
 	/**
-	 * @expectedException common\d2\Exception
+	 * @expectedException d2\Exception
 	 * @expectedExceptionMessage LIMIT must be positive int
 	 */
 	public function testLimitInvalid() {
@@ -56,7 +56,7 @@ class LimitableTest extends Base
 	}
 
 	/**
-	 * @expectedException common\d2\Exception
+	 * @expectedException d2\Exception
 	 * @expectedExceptionMessage OFFSET must be positive int
 	 */
 	public function testOffsetInvalid() {
