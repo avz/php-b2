@@ -11,6 +11,16 @@ class DeleteTest extends Base
 
 		$d = new \common\d2\Delete(new \common\d2\PlainSql('some strange sql'));
 		$this->assertEquals('DELETE FROM some strange sql', $d->toString($this->quoter()));
+
+		$d->limit(10);
+		$this->assertEquals('DELETE FROM some strange sql LIMIT 10', $d->toString($this->quoter()));
+
+		$d->orderBy('column');
+		$this->assertEquals('DELETE FROM some strange sql ORDER BY `column` LIMIT 10', $d->toString($this->quoter()));
+
+		$d = new \common\d2\Delete('table');
+		$d->orderBy('c');
+		$this->assertEquals('DELETE FROM `table` ORDER BY `c`', $d->toString($this->quoter()));
 	}
 
 	/**

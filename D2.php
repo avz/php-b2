@@ -629,6 +629,7 @@ class Delete extends Query
 {
 
 	use Whereable;
+	use Orderable;
 	use Limitable;
 
 	/**
@@ -655,6 +656,10 @@ class Delete extends Query
 		$sql = 'DELETE FROM ' . $this->table->toString($quote);
 		if (!$this->whereIsEmpty()) {
 			$sql .= ' WHERE ' . $this->whereToString($quote);
+		}
+
+		if (!$this->orderIsEmpty()) {
+			$sql .= ' ' . $this->orderToString($quote);
 		}
 
 		if (!$this->limitIsEmpty()) {
