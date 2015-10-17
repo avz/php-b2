@@ -238,6 +238,9 @@ class Where extends Literal
 		return $this->expression->toString($quote);
 	}
 
+	public function getExpression() {
+		return $this->expression;
+	}
 }
 
 class In extends Literal
@@ -675,6 +678,96 @@ trait Orderable
 			$sql .= ' ' . $this->orderToString($quote);
 
 		return $sql;
+	}
+}
+
+class JoinInfo {
+	/**
+	 *
+	 * @var Literal
+	 */
+	public $table;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $type;
+
+	/**
+	 *
+	 * @var Literal
+	 */
+	public $condition;
+
+	public function __construct($type, Literal $table, Literal $condition)
+	{
+		$this->table = $table;
+		$this->type = $type;
+		$this->condition = $condition;
+	}
+}
+
+trait Joinable {
+	/**
+	 *
+	 * @var JoinInfo[]
+	 */
+	private $joins = [];
+
+	public function innerJoin($table, $condition, $binds = null) {
+		return $this->join('INNER', $table, $condition, $binds);
+	}
+
+	public function leftJoin($table, $condition, $binds = null) {
+		return $this->join('LEFT', $table, $condition, $binds);
+	}
+
+	private function join($type, $table, $condition) {
+		$tableExpression = null;
+
+		if ($table instanceof Literal)
+			$tableExpression = $table;
+		elseif (is_string($table))
+			$tableExpression = new Identifier($table);
+		else
+			throw new Exception('Table name or Literal expected');
+
+		$condArgs = array_slice(func_get_args(), 2);
+		$joinCondition = WhereUpdateCommon::extractExpressionsFromArgs($condArgs);
+
+		$where = new Where;
+		foreach ($joinCondition as $jc) {
+			$where->addAnd($jc);
+		}
+
+		$info = new JoinInfo($type, $tableExpression, $where->getExpression());
+
+		$this->joins[] = $info;
+	}
+
+	private function joinsToString(Quote $quote) {
+		$list = [];
+
+		foreach ($this->joins as $joinInfo) {
+			$list[] =
+				$joinInfo->type . ' JOIN ' . $joinInfo->table->toString($quote)
+				. ' ON ' . $joinInfo->condition->toString($quote)
+			;
+		}
+
+		return implode(' ', $list);
+	}
+
+	protected function joinsIsEmpty() {
+		return !$this->joins;
+	}
+
+	protected function joinsConcatSql(Quote $quote, $sql) {
+		if ($this->joinsIsEmpty())
+			return $sql;
+
+		return $sql . ' ' . $this->joinsToString($quote);
 	}
 }
 
