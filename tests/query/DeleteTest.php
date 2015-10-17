@@ -1,10 +1,10 @@
 <?php
-namespace d2\tests;
+namespace d2\tests\query;
 
 use \d2\query\Delete;
 use \d2\literal\PlainSql;
 
-class DeleteTest extends Base
+class DeleteTest extends \d2\tests\Base
 {
 	public function testToString() {
 		$d = new Delete('table');

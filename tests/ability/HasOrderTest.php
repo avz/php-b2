@@ -1,6 +1,6 @@
 <?php
+namespace d2\tests\ability;
 
-namespace d2\tests;
 use d2\Exception;
 use d2\literal\Identifier;
 use d2\literal\PlainSql;
@@ -19,7 +19,7 @@ class SimpleOrderable
 	}
 }
 
-class OrderableTest extends Base
+class HasOrderTest extends \d2\tests\Base
 {
 	public function testToString() {
 		$s = new SimpleOrderable;

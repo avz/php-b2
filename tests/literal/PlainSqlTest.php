@@ -1,11 +1,11 @@
 <?php
-namespace d2\tests;
+namespace d2\tests\literal;
 
 use d2\literal\PlainSql;
 use d2\literal\Identifier;
 use d2\literal\Constant;
 
-class PlainSqlTest extends Base
+class PlainSqlTest extends \d2\tests\Base
 {
 	public function testToString() {
 		$sql = "hello\"world `any characters.'\0\r\naa";

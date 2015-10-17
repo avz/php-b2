@@ -1,10 +1,10 @@
 <?php
-namespace d2\tests;
+namespace d2\tests\query;
 
 use d2\literal\PlainSql;
 use d2\query\Select;
 
-class SelectTest extends Base
+class SelectTest extends \d2\tests\Base
 {
 	public function testToString() {
 		$s = new Select('t1');

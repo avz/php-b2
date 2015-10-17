@@ -1,6 +1,5 @@
 <?php
-
-namespace d2\tests;
+namespace d2\tests\ability;
 
 class SimpleGroupable
 {
@@ -16,7 +15,7 @@ class SimpleGroupable
 	}
 }
 
-class GroupableTest extends Base
+class HasGroupTest extends \d2\tests\Base
 {
 	public function testToString() {
 		$s = new SimpleGroupable;

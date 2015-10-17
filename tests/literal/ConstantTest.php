@@ -1,9 +1,9 @@
 <?php
-namespace d2\tests;
+namespace d2\tests\literal;
 
 use d2\literal\Constant;
 
-class ConstantTest extends Base
+class ConstantTest extends \d2\tests\Base
 {
 	public function testToString() {
 		$this->assertEquals("'10'", (new Constant(10))->toString($this->quoter()));

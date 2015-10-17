@@ -1,9 +1,9 @@
 <?php
-namespace d2\tests;
+namespace d2\tests\literal;
 
 use d2\literal\Identifier;
 
-class IdentifierTest extends Base
+class IdentifierTest extends \d2\tests\Base
 {
 	public function testToString() {
 		$this->assertEquals('`column`', (new Identifier('column'))->toString($this->quoter()));

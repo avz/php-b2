@@ -1,6 +1,5 @@
 <?php
-
-namespace d2\tests;
+namespace d2\tests\ability;
 
 use d2\literal\PlainSql;
 use d2\literal\Constant;
@@ -23,7 +22,7 @@ class SimpleWhereable
 
 }
 
-class WhereableTest extends Base
+class HasWhereTest extends \d2\tests\Base
 {
 
 	public function testColumnValue()

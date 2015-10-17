@@ -1,11 +1,11 @@
 <?php
-namespace d2\tests;
+namespace d2\tests\literal;
 
 use d2\literal\Where;
 use d2\literal\Identifier;
 use d2\literal\Constant;
 
-class WhereTest extends Base
+class WhereTest extends \d2\tests\Base
 {
 	public function testToString() {
 		$where = new Where(new Identifier('hello'));

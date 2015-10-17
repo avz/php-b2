@@ -1,11 +1,11 @@
 <?php
-namespace d2\tests;
+namespace d2\tests\literal;
 
 use d2\literal\In;
 use d2\literal\Constant;
 use d2\literal\Identifier;
 
-class InTest extends Base
+class InTest extends \d2\tests\Base
 {
 	public function testToString() {
 		$in = new In(new Identifier('c'));

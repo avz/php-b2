@@ -1,9 +1,9 @@
 <?php
-namespace d2\tests;
+namespace d2\tests\query;
 
 use d2\query\Update;
 
-class UpdateTest extends Base
+class UpdateTest extends \d2\tests\Base
 {
 	public function testToString() {
 		$u = new Update('t1');

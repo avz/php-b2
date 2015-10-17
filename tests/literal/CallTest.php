@@ -1,11 +1,11 @@
 <?php
-namespace d2\tests;
+namespace d2\tests\literal;
 
 use d2\literal\Constant;
 use d2\literal\Call;
 use d2\literal\Identifier;
 
-class CallTest extends Base
+class CallTest extends \d2\tests\Base
 {
 	public function testToString() {
 		$this->assertEquals("HELLO()", (new Call('HELLO'))->toString($this->quoter()));

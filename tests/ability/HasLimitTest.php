@@ -1,6 +1,5 @@
 <?php
-
-namespace d2\tests;
+namespace d2\tests\ability;
 
 class SimpleLimitable
 {
@@ -16,7 +15,7 @@ class SimpleLimitable
 	}
 }
 
-class LimitableTest extends Base
+class HasLimitTest extends \d2\tests\Base
 {
 	public function testToString() {
 		$l = new SimpleLimitable;

@@ -1,11 +1,11 @@
 <?php
-namespace d2\tests;
+namespace d2\tests\literal;
 
 use d2\literal\BiOperation;
 use d2\literal\Constant;
 use d2\literal\Identifier;
 
-class BiOperationTest extends Base
+class BiOperationTest extends \d2\tests\Base
 {
 	public function testToString() {
 		$operand1 = new Constant(10);

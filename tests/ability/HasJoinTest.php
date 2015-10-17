@@ -1,6 +1,5 @@
 <?php
-
-namespace d2\tests;
+namespace d2\tests\ability;
 
 class SimpleJoinable
 {
@@ -16,7 +15,7 @@ class SimpleJoinable
 	}
 }
 
-class JoinableTest extends Base
+class HasJoinTest extends \d2\tests\Base
 {
 	public function testToString() {
 		$j = new SimpleJoinable;

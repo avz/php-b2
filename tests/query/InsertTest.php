@@ -1,10 +1,10 @@
 <?php
-namespace d2\tests;
+namespace d2\tests\query;
 
 use d2\query\Insert;
 use d2\literal\PlainSql;
 
-class InsertTest extends Base
+class InsertTest extends \d2\tests\Base
 {
 	/**
 	 * @expectedException d2\Exception
