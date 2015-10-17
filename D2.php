@@ -681,6 +681,58 @@ trait Orderable
 	}
 }
 
+trait Groupable
+{
+	private $groups = [];
+
+	public function groupBy($column, $direction = 'ASC')
+	{
+		$e = null;
+
+		if ($direction !== 'ASC' && $direction !== 'DESC') {
+			throw new Exception('Direction must be ASC or DESC');
+		}
+
+		if (is_string($column)) {
+			$e = new Identifier($column);
+		} elseif ($column instanceof Literal) {
+			$e = $column;
+		} else {
+			throw new Exception('Only string  or Literal allowed');
+		}
+
+		$this->groups[] = [$e, $direction];
+	}
+
+	protected function groupIsEmpty()
+	{
+		return !$this->groups;
+	}
+
+	private function groupToString(Quote $quote)
+	{
+		$list = [];
+		foreach ($this->groups as $o) {
+			list($expression, $direction) = $o;
+
+			$list[] = $expression->toString($quote) . ($direction !== 'ASC' ? ' ' . $direction : '');
+		}
+
+		if (!$list) {
+			return null;
+		}
+
+		return 'GROUP BY ' . implode(', ', $list);
+	}
+
+	protected function groupConcatSql(Quote $quote, $sql) {
+		if (!$this->groupIsEmpty())
+			$sql .= ' ' . $this->groupToString($quote);
+
+		return $sql;
+	}
+}
+
 class JoinInfo {
 	/**
 	 *
@@ -841,6 +893,28 @@ class Update extends Query
 		$expressions = WhereUpdateCommon::extractExpressionsFromArgs(func_get_args());
 
 		$this->sets = array_merge($this->sets, $expressions);
+	}
+}
+
+class Select extends Query
+{
+	use Whereable;
+	use Joinable;
+	use Groupable;
+	use Orderable;
+	use Limitable;
+
+	public function toString(Quote $quote)
+	{
+		$sql = 'SELECT * FROM ' . $this->table->toString($quote);
+
+		$sql = $this->joinsConcatSql($quote, $sql);
+		$sql = $this->whereConcatSql($quote, $sql);
+		$sql = $this->groupConcatSql($quote, $sql);
+		$sql = $this->orderConcatSql($quote, $sql);
+		$sql = $this->limitConcatSql($quote, $sql);
+
+		return $sql;
 	}
 }
 
