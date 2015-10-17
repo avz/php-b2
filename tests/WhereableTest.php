@@ -2,14 +2,18 @@
 
 namespace d2\tests;
 
+use d2\literal\PlainSql;
+use d2\literal\Constant;
+use d2\literal\Identifier;
+use d2\literal\Where;
+
 class SimpleWhereable
 {
-
-	use \d2\Whereable;
+	use \d2\ability\HasWhere;
 
 	public function __construct()
 	{
-		$this->where = new \d2\Where;
+		$this->where = new Where;
 	}
 
 	public function toString(\d2\Quote $q)
@@ -36,11 +40,11 @@ class WhereableTest extends Base
 		$this->assertEquals("(`column` = '10')", $q->toString($this->quoter()));
 
 		$q = new SimpleWhereable();
-		$q->where('column', new \d2\Identifier('column2'));
+		$q->where('column', new Identifier('column2'));
 		$this->assertEquals("(`column` = `column2`)", $q->toString($this->quoter()));
 
 		$q = new SimpleWhereable();
-		$q->where('column', new \d2\PlainSql('NOW()'));
+		$q->where('column', new PlainSql('NOW()'));
 		$this->assertEquals("(`column` = NOW())", $q->toString($this->quoter()));
 	}
 
@@ -77,7 +81,7 @@ class WhereableTest extends Base
 		$this->assertEquals("(`column` IN('value1') AND `column2` IN('value2'))", $q->toString($this->quoter()));
 
 		$q = new SimpleWhereable();
-		$q->where('column2', [new \d2\PlainSql("NOW()"), new \d2\PlainSql("TODAY()")]);
+		$q->where('column2', [new PlainSql("NOW()"), new PlainSql("TODAY()")]);
 		$this->assertEquals("`column2` IN(NOW(), TODAY())", $q->toString($this->quoter()));
 	}
 

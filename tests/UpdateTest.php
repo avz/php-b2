@@ -1,10 +1,12 @@
 <?php
 namespace d2\tests;
 
+use d2\query\Update;
+
 class UpdateTest extends Base
 {
 	public function testToString() {
-		$u = new \d2\Update('t1');
+		$u = new Update('t1');
 		$u->set('hi', 'val');
 		$this->assertEquals("UPDATE `t1` SET (`hi` = 'val')", $u->toString($this->quoter()));
 		$u->set('hi2', 'val2');
@@ -32,7 +34,7 @@ class UpdateTest extends Base
 	 * @expectedExceptionMessage Empty set
 	 */
 	public function testEmptySet() {
-		$u = new \d2\Update('hi');
+		$u = new Update('hi');
 		$u->toString($this->quoter());
 	}
 }

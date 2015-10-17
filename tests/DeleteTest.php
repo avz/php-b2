@@ -1,15 +1,18 @@
 <?php
 namespace d2\tests;
 
+use \d2\query\Delete;
+use \d2\literal\PlainSql;
+
 class DeleteTest extends Base
 {
 	public function testToString() {
-		$d = new \d2\Delete('table');
+		$d = new Delete('table');
 		$this->assertEquals('DELETE FROM `table`', $d->toString($this->quoter()));
 		$d->where('id IS NULL');
 		$this->assertEquals('DELETE FROM `table` WHERE (id IS NULL)', $d->toString($this->quoter()));
 
-		$d = new \d2\Delete(new \d2\PlainSql('some strange sql'));
+		$d = new Delete(new PlainSql('some strange sql'));
 		$this->assertEquals('DELETE FROM some strange sql', $d->toString($this->quoter()));
 
 		$d->limit(10);
@@ -18,7 +21,7 @@ class DeleteTest extends Base
 		$d->orderBy('column');
 		$this->assertEquals('DELETE FROM some strange sql ORDER BY `column` LIMIT 10', $d->toString($this->quoter()));
 
-		$d = new \d2\Delete('table');
+		$d = new Delete('table');
 		$d->orderBy('c');
 		$this->assertEquals('DELETE FROM `table` ORDER BY `c`', $d->toString($this->quoter()));
 	}
@@ -28,6 +31,6 @@ class DeleteTest extends Base
 	 * @expectedExceptionMessage Only strings and Literals allowed in table name
 	 */
 	public function testInvalidTable() {
-		$d = new \d2\Delete(10);
+		$d = new Delete(10);
 	}
 }

@@ -4,7 +4,7 @@ namespace d2\tests;
 
 class SimpleLimitable
 {
-	use \d2\Limitable;
+	use \d2\ability\HasLimit;
 
 	public function toString(\d2\Quote $q)
 	{

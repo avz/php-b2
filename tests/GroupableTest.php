@@ -4,7 +4,7 @@ namespace d2\tests;
 
 class SimpleGroupable
 {
-	use \d2\Groupable;
+	use \d2\ability\HasGroup;
 
 	public function toString(\d2\Quote $q)
 	{
@@ -28,7 +28,7 @@ class GroupableTest extends Base
 		$this->assertEquals('GROUP BY `col`, `col2` DESC', $s->toString($this->quoter()));
 
 		$s = new SimpleGroupable;
-		$s->groupBy(new \d2\PlainSql('hello'), 'DESC');
+		$s->groupBy(new \d2\literal\PlainSql('hello'), 'DESC');
 		$this->assertEquals('GROUP BY hello DESC', $s->toString($this->quoter()));
 	}
 
@@ -43,7 +43,7 @@ class GroupableTest extends Base
 
 	/**
 	 * @expectedException d2\Exception
-	 * @expectedExceptionMessage Only string  or Literal allowed
+	 * @expectedExceptionMessage Only string or Literal allowed
 	 */
 	public function testInvalidNullDesc() {
 		$s = new SimpleGroupable();
@@ -52,7 +52,7 @@ class GroupableTest extends Base
 
 	/**
 	 * @expectedException d2\Exception
-	 * @expectedExceptionMessage Only string  or Literal allowed
+	 * @expectedExceptionMessage Only string or Literal allowed
 	 */
 	public function testInvalidColumn() {
 		$s = new SimpleGroupable();

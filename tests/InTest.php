@@ -1,24 +1,28 @@
 <?php
 namespace d2\tests;
 
+use d2\literal\In;
+use d2\literal\Constant;
+use d2\literal\Identifier;
+
 class InTest extends Base
 {
 	public function testToString() {
-		$in = new \d2\In(new \d2\Identifier('c'));
-		$in->addCase(new \d2\Constant('hi'));
+		$in = new In(new Identifier('c'));
+		$in->addCase(new Constant('hi'));
 
 		$this->assertEquals("`c` IN('hi')", $in->toString($this->quoter()));
 
-		$in->addCase(new \d2\Constant('wo'));
+		$in->addCase(new Constant('wo'));
 
 		$this->assertEquals("`c` IN('hi', 'wo')", $in->toString($this->quoter()));
 
-		$in = new \d2\In(new \d2\Identifier('c'), [new \d2\Constant('wo')]);
+		$in = new In(new Identifier('c'), [new Constant('wo')]);
 		$this->assertEquals("`c` IN('wo')", $in->toString($this->quoter()));
 
-		$in = new \d2\In(new \d2\Identifier('c'), [new \d2\Constant('hi'), new \d2\Constant('wo')]);
+		$in = new In(new Identifier('c'), [new Constant('hi'), new Constant('wo')]);
 		$this->assertEquals("`c` IN('hi', 'wo')", $in->toString($this->quoter()));
-		$in->addCase(new \d2\Identifier('col'));
+		$in->addCase(new Identifier('col'));
 		$this->assertEquals("`c` IN('hi', 'wo', `col`)", $in->toString($this->quoter()));
 	}
 
@@ -27,7 +31,7 @@ class InTest extends Base
 	 * @expectedExceptionMessage IN is empty
 	 */
 	public function testEmptyException() {
-		$in = new \d2\In(new \d2\Identifier('col'));
+		$in = new In(new Identifier('col'));
 
 		$in->toString($this->quoter());
 	}

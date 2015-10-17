@@ -1,12 +1,16 @@
 <?php
 namespace d2\tests;
 
+use d2\literal\PlainSql;
+use d2\literal\Identifier;
+use d2\literal\Constant;
+
 class PlainSqlTest extends Base
 {
 	public function testToString() {
 		$sql = "hello\"world `any characters.'\0\r\naa";
 
-		$ps = new \d2\PlainSql($sql);
+		$ps = new PlainSql($sql);
 
 		$this->assertEquals($sql, $ps->toString($this->quoter()));
 	}
@@ -16,22 +20,22 @@ class PlainSqlTest extends Base
 	 * @expectedExceptionMessage SQL must be a string
 	 */
 	public function testInvalidArgument() {
-		new \d2\PlainSql(10);
+		new PlainSql(10);
 	}
 
 	public function testBinds() {
-		$ps = new \d2\PlainSql('hello', []);
+		$ps = new PlainSql('hello', []);
 		$this->assertEquals('hello', $ps->toString($this->quoter()));
 
-		$ps = new \d2\PlainSql('hello > ?', [new \d2\Constant(1)]);
+		$ps = new PlainSql('hello > ?', [new Constant(1)]);
 		$this->assertEquals("hello > '1'", $ps->toString($this->quoter()));
 
-		$ps = new \d2\PlainSql(
+		$ps = new PlainSql(
 			'first=:first second=? third=:third',
 			[
-				':third' => new \d2\Constant('third'),
-				new \d2\Identifier('second'),
-				':first' => new \d2\Identifier('first'),
+				':third' => new Constant('third'),
+				new Identifier('second'),
+				':first' => new Identifier('first'),
 			]
 		);
 		$this->assertEquals("first=`first` second=`second` third='third'", $ps->toString($this->quoter()));
@@ -42,7 +46,7 @@ class PlainSqlTest extends Base
 	 * @expectedExceptionMessage Bind key 0 was not found
 	 */
 	public function testTooManyBinds() {
-		$ps = new \d2\PlainSql('hello :world ?', [':world' => new \d2\Constant(1)]);
+		$ps = new PlainSql('hello :world ?', [':world' => new Constant(1)]);
 		$ps->toString($this->quoter());
 	}
 
@@ -51,11 +55,11 @@ class PlainSqlTest extends Base
 	 * @expectedExceptionMessage Too many binds: :hello
 	 */
 	public function testTooManyBinds2() {
-		$ps = new \d2\PlainSql(
+		$ps = new PlainSql(
 			'hello :world',
 			[
-				':world' => new \d2\Constant(1),
-				':hello' => new \d2\Constant(2)
+				':world' => new Constant(1),
+				':hello' => new Constant(2)
 			]
 		);
 
@@ -67,7 +71,7 @@ class PlainSqlTest extends Base
 	 * @expectedExceptionMessage Bind key :hello was not found
 	 */
 	public function testNotEnoughBinds() {
-		$ps = new \d2\PlainSql('hello :world :hello', [':world' => new \d2\Constant(1)]);
+		$ps = new PlainSql('hello :world :hello', [':world' => new Constant(1)]);
 		$ps->toString($this->quoter());
 	}
 
@@ -76,6 +80,6 @@ class PlainSqlTest extends Base
 	 * @expectedExceptionMessage Bind must be a Literal
 	 */
 	public function testInvalidBind() {
-		$ps = new \d2\PlainSql('hello', [10]);
+		$ps = new PlainSql('hello', [10]);
 	}
 }

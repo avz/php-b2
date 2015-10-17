@@ -1,21 +1,23 @@
 <?php
 namespace d2\tests;
 
+use d2\literal\Constant;
+
 class ConstantTest extends Base
 {
 	public function testToString() {
-		$this->assertEquals("'10'", (new \d2\Constant(10))->toString($this->quoter()));
-		$this->assertEquals("'helo'", (new \d2\Constant('helo'))->toString($this->quoter()));
-		$this->assertEquals("NULL", (new \d2\Constant(null))->toString($this->quoter()));
-		$this->assertEquals("1", (new \d2\Constant(true))->toString($this->quoter()));
-		$this->assertEquals("0", (new \d2\Constant(false))->toString($this->quoter()));
+		$this->assertEquals("'10'", (new Constant(10))->toString($this->quoter()));
+		$this->assertEquals("'helo'", (new Constant('helo'))->toString($this->quoter()));
+		$this->assertEquals("NULL", (new Constant(null))->toString($this->quoter()));
+		$this->assertEquals("1", (new Constant(true))->toString($this->quoter()));
+		$this->assertEquals("0", (new Constant(false))->toString($this->quoter()));
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException \d2\Exception
 	 * @expectExceptionMessage Objects is not allowed
 	 */
 	public function testInvalidArgument() {
-		new \d2\Constant(new \stdClass);
+		new Constant(new \stdClass);
 	}
 }

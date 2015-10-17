@@ -1,10 +1,13 @@
 <?php
 namespace d2\tests;
 
+use d2\literal\PlainSql;
+use d2\query\Select;
+
 class SelectTest extends Base
 {
 	public function testToString() {
-		$s = new \d2\Select('t1');
+		$s = new Select('t1');
 		$s->column('id');
 		$this->assertEquals("SELECT `id` FROM `t1`", $s->toString($this->quoter()));
 
@@ -44,7 +47,7 @@ class SelectTest extends Base
 			, $s->toString($this->quoter())
 		);
 
-		$s->column(new \d2\PlainSql('YEAR() - bYear'), 'age');
+		$s->column(new PlainSql('YEAR() - bYear'), 'age');
 
 		$this->assertEquals(
 			"SELECT `id`, YEAR() - bYear AS `age` FROM `t1` INNER JOIN `t2` ON (t2.id = t1.id) WHERE (id > '10')"
@@ -55,7 +58,7 @@ class SelectTest extends Base
 		);
 
 
-		$s = new \d2\Select('user');
+		$s = new Select('user');
 		$s->column('*');
 		$this->assertEquals("SELECT * FROM `user`", $s->toString($this->quoter()));
 	}
@@ -65,7 +68,7 @@ class SelectTest extends Base
 	 * @expectedExceptionMessage You must specify columns
 	 */
 	public function testEmptyColumns() {
-		$s = new \d2\Select('hi');
+		$s = new Select('hi');
 		$s->toString($this->quoter());
 	}
 
@@ -74,7 +77,7 @@ class SelectTest extends Base
 	 * @expectedExceptionMessage Alias must be a string
 	 */
 	public function testAliasNotAString() {
-		$s = new \d2\Select('hi');
+		$s = new Select('hi');
 		$s->column('c', 10);
 	}
 
@@ -83,7 +86,7 @@ class SelectTest extends Base
 	 * @expectedExceptionMessage Numerical aliases is not allowed
 	 */
 	public function testAliasIsNumeric() {
-		$s = new \d2\Select('hi');
+		$s = new Select('hi');
 		$s->column('c', '10');
 	}
 
@@ -92,7 +95,7 @@ class SelectTest extends Base
 	 * @expectedExceptionMessage Alias name '*' is not alowed
 	 */
 	public function testAliasIsAsterisk() {
-		$s = new \d2\Select('hi');
+		$s = new Select('hi');
 		$s->column('c', '*');
 	}
 
@@ -101,7 +104,7 @@ class SelectTest extends Base
 	 * @expectedExceptionMessage Multiple definition of '*'
 	 */
 	public function testTooManyAsterisks() {
-		$s = new \d2\Select('hi');
+		$s = new Select('hi');
 		$s->column('*');
 		$s->column('*');
 	}
@@ -111,7 +114,7 @@ class SelectTest extends Base
 	 * @expectedExceptionMessage Can't set alias to '*'
 	 */
 	public function testAliasToyAsterisk() {
-		$s = new \d2\Select('hi');
+		$s = new Select('hi');
 		$s->column('*', 'jj');
 	}
 
@@ -120,8 +123,17 @@ class SelectTest extends Base
 	 * @expectedExceptionMessage Non unique alias name: c
 	 */
 	public function testNonUniqueAlias() {
-		$s = new \d2\Select('hi');
+		$s = new Select('hi');
 		$s->column('a', 'c');
 		$s->column('b', 'c');
+	}
+
+	/**
+	 * @expectedException d2\Exception
+	 * @expectedExceptionMessage Column name or Literal expected
+	 */
+	public function testInvalidColumn() {
+		$s = new Select('hi');
+		$s->column(new \stdClass);
 	}
 }
