@@ -270,11 +270,17 @@ class In extends Literal
 
 abstract class Query extends Literal
 {
-	protected $tableName;
+	protected $table;
 
-	public function __construct($tableName)
+	public function __construct($table)
 	{
-		$this->tableName = $tableName;
+		if (is_string($table)) {
+			$this->table = new Identifier($table);
+		} elseif ($table instanceof Literal) {
+			$this->table = $table;
+		} else {
+			throw new Exception('Only strings and Literals allowed in table name');
+		}
 	}
 
 	protected function quote($any)
@@ -377,7 +383,7 @@ class Insert extends Query
 		if ($this->ignore)
 			$sql .= ' IGNORE';
 
-		$sql .= ' INTO ' . $quote->identifier($this->tableName);
+		$sql .= ' INTO ' . $this->table->toString($quote);
 
 		$sql .= '(' . $quote->identifier($this->keys) . ')';
 
@@ -548,11 +554,17 @@ trait Whereable
 		return $this->where->isEmpty();
 	}
 
-	protected function whereToString(Quote $quote)
+	private function whereToString(Quote $quote)
 	{
 		return $this->where->toString($quote);
 	}
 
+	protected function whereConcatSql(Quote $quote, $sql) {
+		if (!$this->whereIsEmpty())
+			$sql .= ' WHERE ' . $this->whereToString($quote);
+
+		return $sql;
+	}
 }
 
 trait Limitable
@@ -581,7 +593,7 @@ trait Limitable
 		return $this->limit === null && $this->offset === null;
 	}
 
-	protected function limitToString(Quote $quote)
+	private function limitToString(Quote $quote)
 	{
 		if ($this->offset !== null && $this->limit === null)
 			throw new Exception('OFFSET without LIMIT');
@@ -600,6 +612,12 @@ trait Limitable
 		return $sql;
 	}
 
+	protected function limitConcatSql(Quote $quote, $sql) {
+		if (!$this->limitIsEmpty())
+			$sql .= ' ' . $this->limitToString($quote);
+
+		return $sql;
+	}
 }
 
 trait Orderable
@@ -631,12 +649,12 @@ trait Orderable
 		$this->orders[] = [$e, $direction];
 	}
 
-	public function orderIsEmpty()
+	protected function orderIsEmpty()
 	{
 		return !$this->orders;
 	}
 
-	public function orderToString(Quote $quote)
+	private function orderToString(Quote $quote)
 	{
 		$list = [];
 		foreach ($this->orders as $o) {
@@ -652,6 +670,12 @@ trait Orderable
 		return 'ORDER BY ' . implode(', ', $list);
 	}
 
+	protected function orderConcatSql(Quote $quote, $sql) {
+		if (!$this->orderIsEmpty())
+			$sql .= ' ' . $this->orderToString($quote);
+
+		return $sql;
+	}
 }
 
 class Delete extends Query
@@ -661,21 +685,9 @@ class Delete extends Query
 	use Orderable;
 	use Limitable;
 
-	/**
-	 *
-	 * @var Literal
-	 */
-	private $table;
-
 	public function __construct($table)
 	{
-		if (is_string($table)) {
-			$this->table = new Identifier($table);
-		} elseif ($table instanceof Literal) {
-			$this->table = $table;
-		} else {
-			throw new Exception('Only strings and Literals allowed in table name');
-		}
+		parent::__construct($table);
 
 		$this->where = new Where;
 	}
@@ -683,71 +695,93 @@ class Delete extends Query
 	public function toString(Quote $quote)
 	{
 		$sql = 'DELETE FROM ' . $this->table->toString($quote);
-		if (!$this->whereIsEmpty()) {
-			$sql .= ' WHERE ' . $this->whereToString($quote);
-		}
-
-		if (!$this->orderIsEmpty()) {
-			$sql .= ' ' . $this->orderToString($quote);
-		}
-
-		if (!$this->limitIsEmpty()) {
-			$sql .= ' ' . $this->limitToString($quote);
-		}
+		$sql = $this->whereConcatSql($quote, $sql);
+		$sql = $this->orderConcatSql($quote, $sql);
+		$sql = $this->limitConcatSql($quote, $sql);
 
 		return $sql;
 	}
 
 }
 
+class Update extends Query
+{
+	use Whereable;
+	use Orderable;
+	use Limitable;
+
+	/**
+	 *
+	 * @var Literal[]
+	 */
+	private $sets = [];
+
+	public function __construct($table)
+	{
+		parent::__construct($table);
+
+		$this->where = new Where;
+	}
+
+	public function toString(Quote $quote)
+	{
+		if (!$this->sets)
+			throw new Exception('Empty set');
+
+		$sql = 'UPDATE ' . $this->table->toString($quote);
+
+		$sets = [];
+		foreach ($this->sets as $expression) {
+			$sets[] = $expression->toString($quote);
+		}
+
+		$sql .= ' SET ' . implode(', ', $sets);
+
+		$sql = $this->whereConcatSql($quote, $sql);
+		$sql = $this->orderConcatSql($quote, $sql);
+		$sql = $this->limitConcatSql($quote, $sql);
+
+		return $sql;
+	}
+
+	public function set($fieldNameOrPrepared, $valueOrBinds = null/* ... */) {
+		$expressions = WhereUpdateCommon::extractExpressionsFromArgs(func_get_args());
+
+		$this->sets = array_merge($this->sets, $expressions);
+	}
+}
+
 class D2
 {
 
-	public function selectFrom($tableName)
+	public function select($table)
 	{
 
 	}
 
-	public function update($tableName)
+	public function update($table)
 	{
+		$u = new Update($table);
 
+		return $u;
 	}
 
-	public function deleteFrom($tableName)
+	public function delete($table)
 	{
-		return new Delete($tableName);
+		$d = new Delete($table);
+
+		return $d;
 	}
 
-	public function insertInto($tableName, array $rows = null)
+	public function insert($table, array $rows = null)
 	{
-		$insert = new Insert($tableName);
+		$insert = new Insert($table);
 
 		if ($rows)
-			$insert->row($rows);
+			$insert->values($rows);
 
 		return $insert;
 	}
-
-	public function quote($any)
-	{
-		if (is_array($any)) {
-			return implode(', ', array_map([$this, 'quote'], $any));
-		} elseif (is_null($any)) {
-			return 'NULL';
-		} else {
-			return "'" . addslashes($any) . "'";
-		}
-	}
-
-	public function quoteIdentifier($any)
-	{
-		if (is_array($any)) {
-			return implode(', ', array_map([$this, 'quoteIdentifier'], $any));
-		} else {
-			return '`' . str_replace('.', '`.`', (string)$any) . '`';
-		}
-	}
-
 }
 
 //
