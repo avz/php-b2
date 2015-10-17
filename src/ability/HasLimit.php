@@ -15,6 +15,8 @@ trait HasLimit
 			throw new Exception('LIMIT must be positive int');
 
 		$this->limit = $limit;
+
+		return $this;
 	}
 
 	public function offset($offset)
@@ -23,6 +25,8 @@ trait HasLimit
 			throw new Exception('OFFSET must be positive int');
 
 		$this->offset = $offset;
+
+		return $this;
 	}
 
 	protected function limitIsEmpty()

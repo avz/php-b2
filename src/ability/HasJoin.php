@@ -79,6 +79,8 @@ trait HasJoin {
 		$info = new JoinInfo($type, $tableExpression, $where->getExpression());
 
 		$this->joins[] = $info;
+
+		return $this;
 	}
 
 	private function joinsToString(\d2\Quote $quote) {

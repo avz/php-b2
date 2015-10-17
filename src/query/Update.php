@@ -48,5 +48,7 @@ class Update extends \d2\Query
 		$expressions = \d2\ability\WhereUpdateCommon::extractExpressionsFromArgs(func_get_args());
 
 		$this->sets = array_merge($this->sets, $expressions);
+
+		return $this;
 	}
 }

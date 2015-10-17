@@ -23,6 +23,8 @@ trait HasGroup
 		}
 
 		$this->groups[] = [$e, $direction];
+
+		return $this;
 	}
 
 	protected function groupIsEmpty()

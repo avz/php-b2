@@ -111,5 +111,7 @@ class Select extends \d2\Query
 		} else {
 			$this->columns[] = $e;
 		}
+
+		return $this;
 	}
 }

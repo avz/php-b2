@@ -33,6 +33,8 @@ trait HasOrder
 		}
 
 		$this->orders[] = [$e, $direction];
+
+		return $this;
 	}
 
 	protected function orderIsEmpty()
