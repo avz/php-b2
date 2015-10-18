@@ -75,7 +75,7 @@ abstract class WhereUpdateCommon {
 						throw new Exception('Binds must be an array');
 				}
 
-				$expressions[] = self::prepared('(' . $fieldNameOrPrepared . ')', $valueOrBinds);
+				$expressions[] = self::prepared($fieldNameOrPrepared, $valueOrBinds);
 			} else {
 				if ($numArgs !== 2)
 					throw new Exception('Exactly 2 arguments expected');

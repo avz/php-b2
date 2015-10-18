@@ -17,9 +17,17 @@ class BiOperation extends \d2\Literal
 
 	public function toString(\d2\Quote $quote)
 	{
-		return '(' . $this->left->toString($quote)
-			. ' ' . $this->operator . ' '
-			. $this->right->toString($quote) . ')'
+		$left = $this->left->toString($quote);
+
+		if ($this->left instanceof BiOperation || $this->left instanceof PlainSql)
+			$left = "($left)";
+
+		$right = $this->right->toString($quote);
+
+		if ($this->right instanceof BiOperation || $this->right instanceof PlainSql)
+			$right = "($right)";
+
+		return $left . ' ' . $this->operator . ' ' . $right;
 		;
 	}
 

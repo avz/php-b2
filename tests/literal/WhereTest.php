@@ -16,10 +16,10 @@ class WhereTest extends \d2\tests\Base
 		$this->assertEquals('`column`', $where->toString($this->quoter()));
 
 		$where->addAnd(new Identifier('column2'));
-		$this->assertEquals('(`column` AND `column2`)', $where->toString($this->quoter()));
+		$this->assertEquals('`column` AND `column2`', $where->toString($this->quoter()));
 
 		$where->addOr(new Identifier('column3'));
-		$this->assertEquals('((`column` AND `column2`) OR `column3`)', $where->toString($this->quoter()));
+		$this->assertEquals('(`column` AND `column2`) OR `column3`', $where->toString($this->quoter()));
 
 		$where = new Where;
 		$where->addOr(new Constant(10));

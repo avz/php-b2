@@ -10,7 +10,7 @@ class DeleteTest extends \d2\tests\Base
 		$d = new Delete('table');
 		$this->assertEquals('DELETE FROM `table`', $d->toString($this->quoter()));
 		$d->where('id IS NULL');
-		$this->assertEquals('DELETE FROM `table` WHERE (id IS NULL)', $d->toString($this->quoter()));
+		$this->assertEquals('DELETE FROM `table` WHERE id IS NULL', $d->toString($this->quoter()));
 
 		$d = new Delete(new PlainSql('some strange sql'));
 		$this->assertEquals('DELETE FROM some strange sql', $d->toString($this->quoter()));

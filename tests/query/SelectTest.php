@@ -12,17 +12,17 @@ class SelectTest extends \d2\tests\Base
 		$this->assertEquals("SELECT `id` FROM `t1`", $s->toString($this->quoter()));
 
 		$s->where('id > ?', [10]);
-		$this->assertEquals("SELECT `id` FROM `t1` WHERE (id > '10')", $s->toString($this->quoter()));
+		$this->assertEquals("SELECT `id` FROM `t1` WHERE id > '10'", $s->toString($this->quoter()));
 
 		$s->innerJoin('t2', 't2.id = t1.id');
 		$this->assertEquals(
-			"SELECT `id` FROM `t1` INNER JOIN `t2` ON (t2.id = t1.id) WHERE (id > '10')",
+			"SELECT `id` FROM `t1` INNER JOIN `t2` ON t2.id = t1.id WHERE id > '10'",
 			$s->toString($this->quoter())
 		);
 
 		$s->groupBy('grp');
 		$this->assertEquals(
-			"SELECT `id` FROM `t1` INNER JOIN `t2` ON (t2.id = t1.id) WHERE (id > '10')"
+			"SELECT `id` FROM `t1` INNER JOIN `t2` ON t2.id = t1.id WHERE id > '10'"
 				. " GROUP BY `grp`"
 			, $s->toString($this->quoter())
 		);
@@ -30,7 +30,7 @@ class SelectTest extends \d2\tests\Base
 		$s->orderBy('ord', 'DESC');
 
 		$this->assertEquals(
-			"SELECT `id` FROM `t1` INNER JOIN `t2` ON (t2.id = t1.id) WHERE (id > '10')"
+			"SELECT `id` FROM `t1` INNER JOIN `t2` ON t2.id = t1.id WHERE id > '10'"
 				. " GROUP BY `grp`"
 				. " ORDER BY `ord` DESC"
 			, $s->toString($this->quoter())
@@ -40,7 +40,7 @@ class SelectTest extends \d2\tests\Base
 		$s->offset(20);
 
 		$this->assertEquals(
-			"SELECT `id` FROM `t1` INNER JOIN `t2` ON (t2.id = t1.id) WHERE (id > '10')"
+			"SELECT `id` FROM `t1` INNER JOIN `t2` ON t2.id = t1.id WHERE id > '10'"
 				. " GROUP BY `grp`"
 				. " ORDER BY `ord` DESC"
 				. " LIMIT 10 OFFSET 20"
@@ -50,7 +50,7 @@ class SelectTest extends \d2\tests\Base
 		$s->column(new PlainSql('YEAR() - bYear'), 'age');
 
 		$this->assertEquals(
-			"SELECT `id`, YEAR() - bYear AS `age` FROM `t1` INNER JOIN `t2` ON (t2.id = t1.id) WHERE (id > '10')"
+			"SELECT `id`, YEAR() - bYear AS `age` FROM `t1` INNER JOIN `t2` ON t2.id = t1.id WHERE id > '10'"
 				. " GROUP BY `grp`"
 				. " ORDER BY `ord` DESC"
 				. " LIMIT 10 OFFSET 20"
