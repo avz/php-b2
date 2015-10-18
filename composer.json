@@ -1,0 +1,11 @@
+{
+	"name": "avz/d2",
+	"version": "0.1.0",
+	"homepage": "https://github.com/avz/php-d2",
+	"licence": "MIT",
+	"autoload": {
+		"psr-4": {
+			"d2\\": "src/"
+		}
+	}
+}
