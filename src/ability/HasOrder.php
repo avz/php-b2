@@ -1,10 +1,10 @@
 <?php
-namespace d2\ability;
+namespace b2\ability;
 
-use d2\Exception;
-use d2\literal\Identifier;
-use d2\literal\Constant;
-use d2\Literal;
+use b2\Exception;
+use b2\literal\Identifier;
+use b2\literal\Constant;
+use b2\Literal;
 
 trait HasOrder
 {
@@ -42,7 +42,7 @@ trait HasOrder
 		return !$this->orders;
 	}
 
-	private function orderToString(\d2\Quote $quote)
+	private function orderToString(\b2\Quote $quote)
 	{
 		$list = [];
 		foreach ($this->orders as $o) {
@@ -58,7 +58,7 @@ trait HasOrder
 		return 'ORDER BY ' . implode(', ', $list);
 	}
 
-	protected function orderConcatSql(\d2\Quote $quote, $sql) {
+	protected function orderConcatSql(\b2\Quote $quote, $sql) {
 		if (!$this->orderIsEmpty())
 			$sql .= ' ' . $this->orderToString($quote);
 

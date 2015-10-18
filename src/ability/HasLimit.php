@@ -1,8 +1,8 @@
 <?php
-namespace d2\ability;
+namespace b2\ability;
 
-use d2\Exception;
-use d2\literal\Identifier;
+use b2\Exception;
+use b2\literal\Identifier;
 
 trait HasLimit
 {
@@ -34,7 +34,7 @@ trait HasLimit
 		return $this->limit === null && $this->offset === null;
 	}
 
-	private function limitToString(\d2\Quote $quote)
+	private function limitToString(\b2\Quote $quote)
 	{
 		if ($this->offset !== null && $this->limit === null)
 			throw new Exception('OFFSET without LIMIT');
@@ -53,7 +53,7 @@ trait HasLimit
 		return $sql;
 	}
 
-	protected function limitConcatSql(\d2\Quote $quote, $sql) {
+	protected function limitConcatSql(\b2\Quote $quote, $sql) {
 		if (!$this->limitIsEmpty())
 			$sql .= ' ' . $this->limitToString($quote);
 

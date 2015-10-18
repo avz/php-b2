@@ -1,10 +1,10 @@
 <?php
-namespace d2\ability;
+namespace b2\ability;
 
-use d2\Literal;
-use d2\literal\Identifier;
-use d2\literal\Where;
-use d2\Exception;
+use b2\Literal;
+use b2\literal\Identifier;
+use b2\literal\Where;
+use b2\Exception;
 
 class JoinInfo {
 	/**
@@ -83,7 +83,7 @@ trait HasJoin {
 		return $this;
 	}
 
-	private function joinsToString(\d2\Quote $quote) {
+	private function joinsToString(\b2\Quote $quote) {
 		$list = [];
 
 		foreach ($this->joins as $joinInfo) {
@@ -100,7 +100,7 @@ trait HasJoin {
 		return !$this->joins;
 	}
 
-	protected function joinsConcatSql(\d2\Quote $quote, $sql) {
+	protected function joinsConcatSql(\b2\Quote $quote, $sql) {
 		if ($this->joinsIsEmpty())
 			return $sql;
 

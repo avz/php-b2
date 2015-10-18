@@ -1,14 +1,14 @@
 <?php
-namespace d2\query;
+namespace b2\query;
 
-use d2\literal\Call;
-use d2\literal\Identifier;
-use d2\literal\Constant;
+use b2\literal\Call;
+use b2\literal\Identifier;
+use b2\literal\Constant;
 
-use d2\Exception;
-use d2\Literal;
+use b2\Exception;
+use b2\Literal;
 
-class Insert extends \d2\Query
+class Insert extends \b2\Query
 {
 	private $keys = [];
 	private $rows = [];
@@ -85,7 +85,7 @@ class Insert extends \d2\Query
 		return $this;
 	}
 
-	public function toString(\d2\Quote $quote)
+	public function toString(\b2\Quote $quote)
 	{
 		if (!$this->rows) {
 			throw new Exception('Empty INSERT');
@@ -114,7 +114,7 @@ class Insert extends \d2\Query
 			 */
 			$vals = [];
 			foreach ($row as $f) {
-				if ($f instanceof \d2\Literal)
+				if ($f instanceof \b2\Literal)
 					$vals[] = $f->toString($quote);
 				else
 					$vals[] = $quote->value($f);

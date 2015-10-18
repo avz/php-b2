@@ -1,15 +1,15 @@
 <?php
-namespace d2\tests\ability;
+namespace b2\tests\ability;
 
-use d2\Exception;
-use d2\literal\Identifier;
-use d2\literal\PlainSql;
+use b2\Exception;
+use b2\literal\Identifier;
+use b2\literal\PlainSql;
 
 class SimpleOrderable
 {
-	use \d2\ability\HasOrder;
+	use \b2\ability\HasOrder;
 
-	public function toString(\d2\Quote $q)
+	public function toString(\b2\Quote $q)
 	{
 		return $this->orderToString($q);
 	}
@@ -19,7 +19,7 @@ class SimpleOrderable
 	}
 }
 
-class HasOrderTest extends \d2\tests\Base
+class HasOrderTest extends \b2\tests\Base
 {
 	public function testToString() {
 		$s = new SimpleOrderable;
@@ -40,7 +40,7 @@ class HasOrderTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException \d2\Exception
+	 * @expectedException \b2\Exception
 	 * @expectedExceptionMessage Direction must be ASC or DESC
 	 */
 	public function testInvalidDirection() {
@@ -49,7 +49,7 @@ class HasOrderTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException \d2\Exception
+	 * @expectedException \b2\Exception
 	 * @expectedExceptionMessage ORDER BY NULL DESC is not allowed
 	 */
 	public function testInvalidNullDesc() {
@@ -58,7 +58,7 @@ class HasOrderTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException \d2\Exception
+	 * @expectedException \b2\Exception
 	 * @expectedExceptionMessage Only string, null or Literal allowed
 	 */
 	public function testInvalidColumn() {

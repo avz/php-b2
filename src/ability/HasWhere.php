@@ -1,5 +1,5 @@
 <?php
-namespace d2\ability;
+namespace b2\ability;
 
 trait HasWhere
 {
@@ -29,12 +29,12 @@ trait HasWhere
 		return $this->where->isEmpty();
 	}
 
-	private function whereToString(\d2\Quote $quote)
+	private function whereToString(\b2\Quote $quote)
 	{
 		return $this->where->toString($quote);
 	}
 
-	protected function whereConcatSql(\d2\Quote $quote, $sql) {
+	protected function whereConcatSql(\b2\Quote $quote, $sql) {
 		if (!$this->whereIsEmpty())
 			$sql .= ' WHERE ' . $this->whereToString($quote);
 

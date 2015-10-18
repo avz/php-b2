@@ -1,27 +1,27 @@
 <?php
-namespace d2\tests\literal;
+namespace b2\tests\literal;
 
-use d2\literal\BiOperation;
-use d2\literal\Constant;
-use d2\literal\Identifier;
+use b2\literal\BiOperation;
+use b2\literal\Constant;
+use b2\literal\Identifier;
 
-class BiOperationTest extends \d2\tests\Base
+class BiOperationTest extends \b2\tests\Base
 {
 	public function testToString() {
 		$operand1 = new Constant(10);
-		$operand2 = new Identifier('hello');
+		$operanb2 = new Identifier('hello');
 
-		$o = new BiOperation($operand1, 'AND', $operand2);
+		$o = new BiOperation($operand1, 'AND', $operanb2);
 		$this->assertEquals("'10' AND `hello`", $o->toString($this->quoter()));
 
-		$o = new BiOperation($operand2, '=', $operand1);
+		$o = new BiOperation($operanb2, '=', $operand1);
 		$this->assertEquals("`hello` = '10'", $o->toString($this->quoter()));
 
-		$o = new BiOperation($operand2, '=', $operand2);
+		$o = new BiOperation($operanb2, '=', $operanb2);
 		$this->assertEquals("`hello` = `hello`", $o->toString($this->quoter()));
 
 		$operand3 = new BiOperation(new Identifier('sub'), '=', new Constant('val'));
-		$o = new BiOperation($operand2, 'AND', $operand3);
+		$o = new BiOperation($operanb2, 'AND', $operand3);
 		$this->assertEquals("`hello` AND (`sub` = 'val')", $o->toString($this->quoter()));
 	}
 }

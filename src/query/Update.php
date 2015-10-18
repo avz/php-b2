@@ -1,18 +1,18 @@
 <?php
-namespace d2\query;
+namespace b2\query;
 
-use d2\literal\Where;
-use d2\Exception;
+use b2\literal\Where;
+use b2\Exception;
 
-class Update extends \d2\Query
+class Update extends \b2\Query
 {
-	use \d2\ability\HasWhere;
-	use \d2\ability\HasOrder;
-	use \d2\ability\HasLimit;
+	use \b2\ability\HasWhere;
+	use \b2\ability\HasOrder;
+	use \b2\ability\HasLimit;
 
 	/**
 	 *
-	 * @var d2\literal[]
+	 * @var b2\literal[]
 	 */
 	private $sets = [];
 
@@ -23,7 +23,7 @@ class Update extends \d2\Query
 		$this->where = new Where;
 	}
 
-	public function toString(\d2\Quote $quote)
+	public function toString(\b2\Quote $quote)
 	{
 		if (!$this->sets)
 			throw new Exception('Empty set');
@@ -45,7 +45,7 @@ class Update extends \d2\Query
 	}
 
 	public function set($fieldNameOrPrepared, $valueOrBinds = null/* ... */) {
-		$expressions = \d2\ability\WhereUpdateCommon::extractExpressionsFromArgs(func_get_args());
+		$expressions = \b2\ability\WhereUpdateCommon::extractExpressionsFromArgs(func_get_args());
 
 		$this->sets = array_merge($this->sets, $expressions);
 

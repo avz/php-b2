@@ -1,11 +1,11 @@
 <?php
-namespace d2\tests\ability;
+namespace b2\tests\ability;
 
 class SimpleLimitable
 {
-	use \d2\ability\HasLimit;
+	use \b2\ability\HasLimit;
 
-	public function toString(\d2\Quote $q)
+	public function toString(\b2\Quote $q)
 	{
 		return $this->limitToString($q);
 	}
@@ -15,7 +15,7 @@ class SimpleLimitable
 	}
 }
 
-class HasLimitTest extends \d2\tests\Base
+class HasLimitTest extends \b2\tests\Base
 {
 	public function testToString() {
 		$l = new SimpleLimitable;
@@ -35,7 +35,7 @@ class HasLimitTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage OFFSET without LIMIT
 	 */
 	public function testOffsetWithoutLimit() {
@@ -46,7 +46,7 @@ class HasLimitTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage LIMIT must be positive int
 	 */
 	public function testLimitInvalid() {
@@ -55,7 +55,7 @@ class HasLimitTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage OFFSET must be positive int
 	 */
 	public function testOffsetInvalid() {

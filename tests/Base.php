@@ -1,11 +1,11 @@
 <?php
-namespace d2\tests;
+namespace b2\tests;
 
 class Base extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 *
-	 * @return \d2\Quote
+	 * @return \b2\Quote
 	 */
 	public function quoter() {
 		return new mock\Quote();

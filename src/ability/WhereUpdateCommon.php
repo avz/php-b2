@@ -1,13 +1,13 @@
 <?php
-namespace d2\ability;
+namespace b2\ability;
 
-use d2\Literal;
-use d2\literal\BiOperation;
-use d2\literal\PlainSql;
-use d2\literal\Constant;
-use d2\literal\In;
-use d2\Exception;
-use d2\literal\Identifier;
+use b2\Literal;
+use b2\literal\BiOperation;
+use b2\literal\PlainSql;
+use b2\literal\Constant;
+use b2\literal\In;
+use b2\Exception;
+use b2\literal\Identifier;
 
 abstract class WhereUpdateCommon {
 	static private function prepared($prepared, array $binds = [])

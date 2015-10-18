@@ -1,10 +1,10 @@
 <?php
-namespace d2\tests\query;
+namespace b2\tests\query;
 
-use d2\literal\PlainSql;
-use d2\query\Select;
+use b2\literal\PlainSql;
+use b2\query\Select;
 
-class SelectTest extends \d2\tests\Base
+class SelectTest extends \b2\tests\Base
 {
 	public function testToString() {
 		$s = new Select('t1');
@@ -64,7 +64,7 @@ class SelectTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage You must specify columns
 	 */
 	public function testEmptyColumns() {
@@ -73,7 +73,7 @@ class SelectTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Alias must be a string
 	 */
 	public function testAliasNotAString() {
@@ -82,7 +82,7 @@ class SelectTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Numerical aliases is not allowed
 	 */
 	public function testAliasIsNumeric() {
@@ -91,7 +91,7 @@ class SelectTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Alias name '*' is not alowed
 	 */
 	public function testAliasIsAsterisk() {
@@ -100,7 +100,7 @@ class SelectTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Multiple definition of '*'
 	 */
 	public function testTooManyAsterisks() {
@@ -110,7 +110,7 @@ class SelectTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Can't set alias to '*'
 	 */
 	public function testAliasToyAsterisk() {
@@ -119,7 +119,7 @@ class SelectTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Non unique alias name: c
 	 */
 	public function testNonUniqueAlias() {
@@ -129,7 +129,7 @@ class SelectTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Column name or Literal expected
 	 */
 	public function testInvalidColumn() {

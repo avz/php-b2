@@ -1,7 +1,7 @@
 <?php
-namespace d2\tests\mock;
+namespace b2\tests\mock;
 
-class Quote extends \d2\Quote
+class Quote extends \b2\Quote
 {
 	public function value($any) {
 		if (is_array($any)) {

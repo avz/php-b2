@@ -1,5 +1,5 @@
 <?php
-namespace d2;
+namespace b2;
 
 class Exception extends \Exception
 {

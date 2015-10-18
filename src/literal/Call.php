@@ -1,7 +1,7 @@
 <?php
-namespace d2\literal;
+namespace b2\literal;
 
-class Call extends \d2\Literal
+class Call extends \b2\Literal
 {
 	public $functionName;
 	public $args = [];
@@ -12,11 +12,11 @@ class Call extends \d2\Literal
 		$this->args = $args;
 	}
 
-	public function toString(\d2\Quote $quote)
+	public function toString(\b2\Quote $quote)
 	{
 		$args = [];
 		foreach ($this->args as $arg) {
-			if ($arg instanceof \d2\Literal)
+			if ($arg instanceof \b2\Literal)
 				$args[] = $arg->toString($quote);
 			else
 				$args[] = $quote->value($arg);

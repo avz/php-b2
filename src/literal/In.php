@@ -1,26 +1,26 @@
 <?php
-namespace d2\literal;
+namespace b2\literal;
 
-class In extends \d2\Literal
+class In extends \b2\Literal
 {
 	private $expression;
 	private $cases = [];
 
-	public function __construct(\d2\Literal $expression, array $cases = [])
+	public function __construct(\b2\Literal $expression, array $cases = [])
 	{
 		$this->expression = $expression;
 		$this->cases = $cases;
 	}
 
-	public function addCase(\d2\Literal $case)
+	public function addCase(\b2\Literal $case)
 	{
 		$this->cases[] = $case;
 	}
 
-	public function toString(\d2\Quote $quote)
+	public function toString(\b2\Quote $quote)
 	{
 		if (!$this->cases)
-			throw new \d2\Exception('IN is empty');
+			throw new \b2\Exception('IN is empty');
 
 		$call = new Call('IN', $this->cases);
 

@@ -1,9 +1,9 @@
 <?php
-namespace d2\tests\query;
+namespace b2\tests\query;
 
-use d2\query\Update;
+use b2\query\Update;
 
-class UpdateTest extends \d2\tests\Base
+class UpdateTest extends \b2\tests\Base
 {
 	public function testToString() {
 		$u = new Update('t1');
@@ -30,7 +30,7 @@ class UpdateTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Empty set
 	 */
 	public function testEmptySet() {

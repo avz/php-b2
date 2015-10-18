@@ -1,13 +1,13 @@
 <?php
-namespace d2\tests\query;
+namespace b2\tests\query;
 
-use d2\query\Insert;
-use d2\literal\PlainSql;
+use b2\query\Insert;
+use b2\literal\PlainSql;
 
-class InsertTest extends \d2\tests\Base
+class InsertTest extends \b2\tests\Base
 {
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Empty INSERT
 	 */
 	public function testEmpty() {
@@ -16,7 +16,7 @@ class InsertTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage All rows in single query must have identical fields
 	 */
 	public function testMismatch() {

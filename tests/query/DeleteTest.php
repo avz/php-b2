@@ -1,10 +1,10 @@
 <?php
-namespace d2\tests\query;
+namespace b2\tests\query;
 
-use \d2\query\Delete;
-use \d2\literal\PlainSql;
+use \b2\query\Delete;
+use \b2\literal\PlainSql;
 
-class DeleteTest extends \d2\tests\Base
+class DeleteTest extends \b2\tests\Base
 {
 	public function testToString() {
 		$d = new Delete('table');
@@ -27,7 +27,7 @@ class DeleteTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Only strings and Literals allowed in table name
 	 */
 	public function testInvalidTable() {

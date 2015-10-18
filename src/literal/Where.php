@@ -1,8 +1,8 @@
 <?php
-namespace d2\literal;
+namespace b2\literal;
 
-use d2\Literal;
-use d2\Exception;
+use b2\Literal;
+use b2\Exception;
 
 class Where extends Literal
 {
@@ -37,7 +37,7 @@ class Where extends Literal
 		return !$this->expression;
 	}
 
-	public function toString(\d2\Quote $quote)
+	public function toString(\b2\Quote $quote)
 	{
 		if (!$this->expression)
 			throw new Exception('Empty WHERE');

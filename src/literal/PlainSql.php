@@ -1,9 +1,9 @@
 <?php
-namespace d2\literal;
+namespace b2\literal;
 
-use d2\Exception;
+use b2\Exception;
 
-class PlainSql extends \d2\Literal
+class PlainSql extends \b2\Literal
 {
 	static $placeholderRegex = '/\?|:([a-z0-9_]+)/';
 	private $sql;
@@ -15,7 +15,7 @@ class PlainSql extends \d2\Literal
 			throw new Exception('SQL must be a string');
 
 		foreach ($binds as $b) {
-			if (!($b instanceof \d2\Literal))
+			if (!($b instanceof \b2\Literal))
 				throw new Exception('Bind must be a Literal');
 		}
 
@@ -23,7 +23,7 @@ class PlainSql extends \d2\Literal
 		$this->binds = $binds;
 	}
 
-	public function toString(\d2\Quote $quote)
+	public function toString(\b2\Quote $quote)
 	{
 		$n = 0;
 

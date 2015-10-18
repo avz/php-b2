@@ -1,11 +1,11 @@
 <?php
-namespace d2\tests\ability;
+namespace b2\tests\ability;
 
 class SimpleGroupable
 {
-	use \d2\ability\HasGroup;
+	use \b2\ability\HasGroup;
 
-	public function toString(\d2\Quote $q)
+	public function toString(\b2\Quote $q)
 	{
 		return $this->groupToString($q);
 	}
@@ -15,7 +15,7 @@ class SimpleGroupable
 	}
 }
 
-class HasGroupTest extends \d2\tests\Base
+class HasGroupTest extends \b2\tests\Base
 {
 	public function testToString() {
 		$s = new SimpleGroupable;
@@ -27,12 +27,12 @@ class HasGroupTest extends \d2\tests\Base
 		$this->assertEquals('GROUP BY `col`, `col2` DESC', $s->toString($this->quoter()));
 
 		$s = new SimpleGroupable;
-		$s->groupBy(new \d2\literal\PlainSql('hello'), 'DESC');
+		$s->groupBy(new \b2\literal\PlainSql('hello'), 'DESC');
 		$this->assertEquals('GROUP BY hello DESC', $s->toString($this->quoter()));
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Direction must be ASC or DESC
 	 */
 	public function testInvalidDirection() {
@@ -41,7 +41,7 @@ class HasGroupTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Only string or Literal allowed
 	 */
 	public function testInvalidNullDesc() {
@@ -50,7 +50,7 @@ class HasGroupTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Only string or Literal allowed
 	 */
 	public function testInvalidColumn() {

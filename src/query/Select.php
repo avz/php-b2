@@ -1,24 +1,24 @@
 <?php
-namespace d2\query;
+namespace b2\query;
 
-use d2\literal\Where;
-use d2\literal\Identifier;
-use d2\literal\PlainSql;
-use d2\Literal;
+use b2\literal\Where;
+use b2\literal\Identifier;
+use b2\literal\PlainSql;
+use b2\Literal;
 
-use d2\Exception;
+use b2\Exception;
 
-class Select extends \d2\Query
+class Select extends \b2\Query
 {
-	use \d2\ability\HasWhere;
-	use \d2\ability\HasJoin;
-	use \d2\ability\HasGroup;
-	use \d2\ability\HasOrder;
-	use \d2\ability\HasLimit;
+	use \b2\ability\HasWhere;
+	use \b2\ability\HasJoin;
+	use \b2\ability\HasGroup;
+	use \b2\ability\HasOrder;
+	use \b2\ability\HasLimit;
 
 	/**
 	 *
-	 * @var d2\literal
+	 * @var b2\literal
 	 */
 	private $columns = [];
 
@@ -29,7 +29,7 @@ class Select extends \d2\Query
 		$this->where = new Where;
 	}
 
-	public function toString(\d2\Quote $quote)
+	public function toString(\b2\Quote $quote)
 	{
 		if (!$this->columns) {
 			throw new Exception('You must specify columns');
@@ -48,7 +48,7 @@ class Select extends \d2\Query
 		return $sql;
 	}
 
-	private function columnsToString(\d2\Quote $quote) {
+	private function columnsToString(\b2\Quote $quote) {
 		$list = [];
 
 		foreach ($this->columns as $alias => $column) {

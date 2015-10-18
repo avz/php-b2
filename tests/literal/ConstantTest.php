@@ -1,9 +1,9 @@
 <?php
-namespace d2\tests\literal;
+namespace b2\tests\literal;
 
-use d2\literal\Constant;
+use b2\literal\Constant;
 
-class ConstantTest extends \d2\tests\Base
+class ConstantTest extends \b2\tests\Base
 {
 	public function testToString() {
 		$this->assertEquals("'10'", (new Constant(10))->toString($this->quoter()));
@@ -14,7 +14,7 @@ class ConstantTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException \d2\Exception
+	 * @expectedException \b2\Exception
 	 * @expectExceptionMessage Objects is not allowed
 	 */
 	public function testInvalidArgument() {

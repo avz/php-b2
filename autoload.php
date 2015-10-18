@@ -1,7 +1,7 @@
 <?php
 
 spl_autoload_register(function ($class) {
-	$prefix = 'd2\\';
+	$prefix = 'b2\\';
 	$baseDir = __DIR__ . '/src/';
 
 	$len = strlen($prefix);

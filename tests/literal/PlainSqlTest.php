@@ -1,11 +1,11 @@
 <?php
-namespace d2\tests\literal;
+namespace b2\tests\literal;
 
-use d2\literal\PlainSql;
-use d2\literal\Identifier;
-use d2\literal\Constant;
+use b2\literal\PlainSql;
+use b2\literal\Identifier;
+use b2\literal\Constant;
 
-class PlainSqlTest extends \d2\tests\Base
+class PlainSqlTest extends \b2\tests\Base
 {
 	public function testToString() {
 		$sql = "hello\"world `any characters.'\0\r\naa";
@@ -16,7 +16,7 @@ class PlainSqlTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage SQL must be a string
 	 */
 	public function testInvalidArgument() {
@@ -42,7 +42,7 @@ class PlainSqlTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Bind key 0 was not found
 	 */
 	public function testTooManyBinds() {
@@ -51,7 +51,7 @@ class PlainSqlTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Too many binds: :hello
 	 */
 	public function testTooManyBinds2() {
@@ -67,7 +67,7 @@ class PlainSqlTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Bind key :hello was not found
 	 */
 	public function testNotEnoughBinds() {
@@ -76,7 +76,7 @@ class PlainSqlTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Bind must be a Literal
 	 */
 	public function testInvalidBind() {

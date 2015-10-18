@@ -1,11 +1,11 @@
 <?php
-namespace d2\tests\literal;
+namespace b2\tests\literal;
 
-use d2\literal\Where;
-use d2\literal\Identifier;
-use d2\literal\Constant;
+use b2\literal\Where;
+use b2\literal\Identifier;
+use b2\literal\Constant;
 
-class WhereTest extends \d2\tests\Base
+class WhereTest extends \b2\tests\Base
 {
 	public function testToString() {
 		$where = new Where(new Identifier('hello'));
@@ -38,7 +38,7 @@ class WhereTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Empty WHERE
 	 */
 	public function testEmpty() {

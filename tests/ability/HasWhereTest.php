@@ -1,28 +1,28 @@
 <?php
-namespace d2\tests\ability;
+namespace b2\tests\ability;
 
-use d2\literal\PlainSql;
-use d2\literal\Constant;
-use d2\literal\Identifier;
-use d2\literal\Where;
+use b2\literal\PlainSql;
+use b2\literal\Constant;
+use b2\literal\Identifier;
+use b2\literal\Where;
 
 class SimpleWhereable
 {
-	use \d2\ability\HasWhere;
+	use \b2\ability\HasWhere;
 
 	public function __construct()
 	{
 		$this->where = new Where;
 	}
 
-	public function toString(\d2\Quote $q)
+	public function toString(\b2\Quote $q)
 	{
 		return $this->whereToString($q);
 	}
 
 }
 
-class HasWhereTest extends \d2\tests\Base
+class HasWhereTest extends \b2\tests\Base
 {
 
 	public function testColumnValue()
@@ -85,7 +85,7 @@ class HasWhereTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage IN is empty
 	 */
 	public function testColumnInEmpty()
@@ -96,7 +96,7 @@ class HasWhereTest extends \d2\tests\Base
 	}
 
 	/**
-	 * @expectedException d2\Exception
+	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Object is not allowed
 	 */
 	public function testInvalidArgumentException()
