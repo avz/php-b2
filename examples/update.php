@@ -16,6 +16,8 @@ echo $b2->update('user')
 		->set('`money` = `money` - ?', [20])
 		->set(['vip' => 1])
 		->set(['bannedUntil' => null])
+		->set($b2->sql('field = ?', [10, 20]))
 		->where('id', 2)
+		->where('`id` OR `uid`')
 	->toString($quote)
 , "\n";
