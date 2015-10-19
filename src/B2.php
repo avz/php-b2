@@ -8,9 +8,15 @@ class B2
 	 * @param string|Literal $table
 	 * @return \b2\Select
 	 */
-	public function select($table)
+	public function select($table /*, WHEREDEF */)
 	{
-		return new \b2\query\Select($table);
+		$select = new \b2\query\Select($table);
+		if(func_num_args() > 1) { // задали ещё и where
+			$args = array_slice(func_get_args(), 1);
+			call_user_func_array([$select, 'where'], $args);
+		}
+
+		return $select;
 	}
 
 	/**
