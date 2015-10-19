@@ -114,4 +114,19 @@ class Select extends \b2\Query
 
 		return $this;
 	}
+
+	public function allColumns() {
+		$this->column('*');
+	}
+
+	public function columns(array $columns) {
+		foreach ($columns as $alias => $col) {
+			if (ctype_digit((string)$alias))
+				$this->column($col);
+			else
+				$this->column($col, $alias);
+		}
+
+		return $this;
+	}
 }

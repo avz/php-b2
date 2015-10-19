@@ -61,6 +61,14 @@ class SelectTest extends \b2\tests\Base
 		$s = new Select('user');
 		$s->column('*');
 		$this->assertEquals("SELECT * FROM `user`", $s->toString($this->quoter()));
+
+		$s = new Select('pay');
+		$s->columns(['id', 'value' => 'price', 'sku']);
+		$this->assertEquals("SELECT `id`, `price` AS `value`, `sku` FROM `pay`", $s->toString($this->quoter()));
+
+		$s = new Select('pay');
+		$s->allColumns();
+		$this->assertEquals("SELECT * FROM `pay`", $s->toString($this->quoter()));
 	}
 
 	/**
