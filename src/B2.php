@@ -55,7 +55,7 @@ class B2
 	}
 
 	public function table($name) {
-		return new literal\Identifier($value);
+		return new literal\Identifier($name);
 	}
 
 	public function field($name) {
