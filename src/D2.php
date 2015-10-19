@@ -49,4 +49,25 @@ class D2
 
 		return $insert;
 	}
+
+	public function constant($value) {
+		return new literal\Constant($value);
+	}
+
+	public function table($name) {
+		return new literal\Identifier($value);
+	}
+
+	public function field($name) {
+		return new literal\Identifier($name);
+	}
+
+	public function sql($sql, array $binds = []) {
+		foreach ($binds as $k => $v) {
+			if (!($v instanceof Literal))
+				$binds[$k] = $this->constant($v);
+		}
+
+		return new literal\PlainSql($sql, $binds);
+	}
 }
