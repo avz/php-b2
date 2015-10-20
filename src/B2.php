@@ -3,6 +3,22 @@ namespace b2;
 
 class B2
 {
+	protected function createSelect() {
+		return new query\Select;
+	}
+
+	protected function createUpdate() {
+		return new query\Update;
+	}
+
+	protected function createInsert() {
+		return new query\Insert;
+	}
+
+	protected function createDelete() {
+		return new query\Delete;
+	}
+
 	private function extractWhereDef(Query $query, $args) {
 		if (sizeof($args) === 1)
 			$query->where($args[0]);
@@ -16,7 +32,7 @@ class B2
 	 */
 	public function select($table /*, WHEREDEF */)
 	{
-		$select = new \b2\query\Select($table);
+		$select = $this->createSelect()->table($table);
 
 		if (func_num_args() > 1)
 			$this->extractWhereDef($select, array_slice(func_get_args(), 1));
@@ -30,7 +46,7 @@ class B2
 	 */
 	public function update($table /*, WHEREDEF */)
 	{
-		$u = new \b2\query\Update($table);
+		$u = $this->createUpdate()->table($table);
 
 		if (func_num_args() > 1)
 			$this->extractWhereDef($u, array_slice(func_get_args(), 1));
@@ -44,7 +60,7 @@ class B2
 	 */
 	public function delete($table /*, WHEREDEF */)
 	{
-		$d = new \b2\query\Delete($table);
+		$d = $this->createDelete()->table($table);
 
 		if (func_num_args() > 1)
 			$this->extractWhereDef($d, array_slice(func_get_args(), 1));
@@ -59,7 +75,7 @@ class B2
 	 */
 	public function insert($table, array $rows = null)
 	{
-		$insert = new \b2\query\Insert($table);
+		$insert = $this->createInsert()->table($table);
 
 		if ($rows)
 			$insert->values($rows);
