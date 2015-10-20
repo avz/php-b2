@@ -19,6 +19,8 @@ abstract class Query extends Literal
 		} else {
 			throw new Exception('Only strings and Literals allowed in table name');
 		}
+
+		return $this;
 	}
 
 	protected function needTable() {
