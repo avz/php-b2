@@ -21,7 +21,8 @@ class DeleteTest extends \b2\tests\Base
 		$d->orderBy('column');
 		$this->assertEquals('DELETE FROM some strange sql ORDER BY `column` LIMIT 10', $d->toString($this->quoter()));
 
-		$d = new Delete('table');
+		$d = new Delete();
+		$d->table('table');
 		$d->orderBy('c');
 		$this->assertEquals('DELETE FROM `table` ORDER BY `c`', $d->toString($this->quoter()));
 	}

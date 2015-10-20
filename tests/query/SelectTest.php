@@ -58,7 +58,8 @@ class SelectTest extends \b2\tests\Base
 		);
 
 
-		$s = new Select('user');
+		$s = new Select();
+		$s->table('user');
 		$s->column('*');
 		$this->assertEquals("SELECT * FROM `user`", $s->toString($this->quoter()));
 

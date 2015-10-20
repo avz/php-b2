@@ -27,6 +27,11 @@ class UpdateTest extends \b2\tests\Base
 			"UPDATE `t1` SET `hi` = 'val', `hi2` = 'val2' WHERE id = 1 ORDER BY `id` LIMIT 10",
 			$u->toString($this->quoter())
 		);
+
+		$u = new Update;
+		$u->table('aa');
+		$u->set('a = b');
+		$this->assertEquals("UPDATE `aa` SET a = b", $u->toString($this->quoter()));
 	}
 
 	/**

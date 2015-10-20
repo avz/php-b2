@@ -108,7 +108,8 @@ class InsertTest extends \b2\tests\Base
 		);
 
 
-		$insert = new Insert('b');
+		$insert = new Insert();
+		$insert->table('b');
 		$insert->onDuplicateKeyUpdate('e');
 		$insert->row(['e' => 'f']);
 
