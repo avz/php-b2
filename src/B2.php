@@ -3,6 +3,12 @@ namespace b2;
 
 class B2
 {
+	private function extractWhereDef(Query $query, $args) {
+		if (sizeof($args) === 1)
+			$query->where($args[0]);
+		else
+			$query->where($args[0], $args[1]);
+	}
 
 	/**
 	 * @param string|Literal $table
@@ -11,10 +17,9 @@ class B2
 	public function select($table /*, WHEREDEF */)
 	{
 		$select = new \b2\query\Select($table);
-		if(func_num_args() > 1) { // задали ещё и where
-			$args = array_slice(func_get_args(), 1);
-			call_user_func_array([$select, 'where'], $args);
-		}
+
+		if (func_num_args() > 1)
+			$this->extractWhereDef($select, array_slice(func_get_args(), 1));
 
 		return $select;
 	}
@@ -23,9 +28,12 @@ class B2
 	 * @param string|Literal $table
 	 * @return \b2\Update
 	 */
-	public function update($table)
+	public function update($table /*, WHEREDEF */)
 	{
 		$u = new \b2\query\Update($table);
+
+		if (func_num_args() > 1)
+			$this->extractWhereDef($u, array_slice(func_get_args(), 1));
 
 		return $u;
 	}
@@ -34,9 +42,12 @@ class B2
 	 * @param string|Literal $table
 	 * @return \b2\Delete
 	 */
-	public function delete($table)
+	public function delete($table /*, WHEREDEF */)
 	{
 		$d = new \b2\query\Delete($table);
+
+		if (func_num_args() > 1)
+			$this->extractWhereDef($d, array_slice(func_get_args(), 1));
 
 		return $d;
 	}
