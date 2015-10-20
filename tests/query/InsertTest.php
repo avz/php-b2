@@ -55,7 +55,7 @@ class InsertTest extends \b2\tests\Base
 		$this->assertEquals("INSERT INTO `ttt`(`hello`) VALUES ('world'), ('hello'), ('foo')", $insert->toString($this->quoter()));
 
 		$insert = new Insert('aaa');
-		$insert->values([['hello' => 'world'], ['hello' => 'hello']]);
+		$insert->rows([['hello' => 'world'], ['hello' => 'hello']]);
 
 		$this->assertEquals("INSERT INTO `aaa`(`hello`) VALUES ('world'), ('hello')", $insert->toString($this->quoter()));
 

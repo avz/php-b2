@@ -52,7 +52,7 @@ class Insert extends \b2\Query
 		return $this;
 	}
 
-	public function values(array $rows)
+	public function rows(array $rows)
 	{
 		foreach ($rows as $row)
 			$this->row($row);

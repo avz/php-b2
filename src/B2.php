@@ -78,7 +78,7 @@ class B2
 		$insert = $this->createInsert()->table($table);
 
 		if ($rows)
-			$insert->values($rows);
+			$insert->rows($rows);
 
 		return $insert;
 	}
