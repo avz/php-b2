@@ -8,22 +8,22 @@ class UpdateTest extends \b2\tests\Base
 	public function testToString() {
 		$u = new Update('t1');
 		$u->set('hi', 'val');
-		$this->assertEquals("UPDATE `t1` SET `hi` = 'val'", $u->toString($this->quoter()));
+		$this->assertSame("UPDATE `t1` SET `hi` = 'val'", $u->toString($this->quoter()));
 		$u->set('hi2', 'val2');
-		$this->assertEquals("UPDATE `t1` SET `hi` = 'val', `hi2` = 'val2'", $u->toString($this->quoter()));
+		$this->assertSame("UPDATE `t1` SET `hi` = 'val', `hi2` = 'val2'", $u->toString($this->quoter()));
 
 		$u->limit(10);
-		$this->assertEquals("UPDATE `t1` SET `hi` = 'val', `hi2` = 'val2' LIMIT 10", $u->toString($this->quoter()));
+		$this->assertSame("UPDATE `t1` SET `hi` = 'val', `hi2` = 'val2' LIMIT 10", $u->toString($this->quoter()));
 
 		$u->where('id = 1');
-		$this->assertEquals(
+		$this->assertSame(
 			"UPDATE `t1` SET `hi` = 'val', `hi2` = 'val2' WHERE id = 1 LIMIT 10",
 			$u->toString($this->quoter())
 		);
 
 		$u->orderBy('id');
 
-		$this->assertEquals(
+		$this->assertSame(
 			"UPDATE `t1` SET `hi` = 'val', `hi2` = 'val2' WHERE id = 1 ORDER BY `id` LIMIT 10",
 			$u->toString($this->quoter())
 		);
@@ -31,7 +31,7 @@ class UpdateTest extends \b2\tests\Base
 		$u = new Update;
 		$u->table('aa');
 		$u->set('a = b');
-		$this->assertEquals("UPDATE `aa` SET a = b", $u->toString($this->quoter()));
+		$this->assertSame("UPDATE `aa` SET a = b", $u->toString($this->quoter()));
 	}
 
 	/**

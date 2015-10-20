@@ -21,14 +21,14 @@ class HasGroupTest extends \b2\tests\Base
 		$s = new SimpleGroupable;
 		$s->groupBy('col');
 
-		$this->assertEquals('GROUP BY `col`', $s->toString($this->quoter()));
+		$this->assertSame('GROUP BY `col`', $s->toString($this->quoter()));
 		$s->groupBy('col2', 'DESC');
 
-		$this->assertEquals('GROUP BY `col`, `col2` DESC', $s->toString($this->quoter()));
+		$this->assertSame('GROUP BY `col`, `col2` DESC', $s->toString($this->quoter()));
 
 		$s = new SimpleGroupable;
 		$s->groupBy(new \b2\literal\PlainSql('hello'), 'DESC');
-		$this->assertEquals('GROUP BY hello DESC', $s->toString($this->quoter()));
+		$this->assertSame('GROUP BY hello DESC', $s->toString($this->quoter()));
 	}
 
 	/**

@@ -25,18 +25,18 @@ class HasOrderTest extends \b2\tests\Base
 		$s = new SimpleOrderable;
 		$s->orderBy('col');
 
-		$this->assertEquals('ORDER BY `col`', $s->toString($this->quoter()));
+		$this->assertSame('ORDER BY `col`', $s->toString($this->quoter()));
 		$s->orderBy('col2', 'DESC');
 
-		$this->assertEquals('ORDER BY `col`, `col2` DESC', $s->toString($this->quoter()));
+		$this->assertSame('ORDER BY `col`, `col2` DESC', $s->toString($this->quoter()));
 
 		$s = new SimpleOrderable;
 		$s->orderBy(new PlainSql('hello'), 'DESC');
-		$this->assertEquals('ORDER BY hello DESC', $s->toString($this->quoter()));
+		$this->assertSame('ORDER BY hello DESC', $s->toString($this->quoter()));
 
 		$s = new SimpleOrderable;
 		$s->orderBy(null);
-		$this->assertEquals('ORDER BY NULL', $s->toString($this->quoter()));
+		$this->assertSame('ORDER BY NULL', $s->toString($this->quoter()));
 	}
 
 	/**

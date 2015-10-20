@@ -9,19 +9,19 @@ class SelectTest extends \b2\tests\Base
 	public function testToString() {
 		$s = new Select('t1');
 		$s->column('id');
-		$this->assertEquals("SELECT `id` FROM `t1`", $s->toString($this->quoter()));
+		$this->assertSame("SELECT `id` FROM `t1`", $s->toString($this->quoter()));
 
 		$s->where('id > ?', [10]);
-		$this->assertEquals("SELECT `id` FROM `t1` WHERE id > '10'", $s->toString($this->quoter()));
+		$this->assertSame("SELECT `id` FROM `t1` WHERE id > '10'", $s->toString($this->quoter()));
 
 		$s->innerJoin('t2', 't2.id = t1.id');
-		$this->assertEquals(
+		$this->assertSame(
 			"SELECT `id` FROM `t1` INNER JOIN `t2` ON t2.id = t1.id WHERE id > '10'",
 			$s->toString($this->quoter())
 		);
 
 		$s->groupBy('grp');
-		$this->assertEquals(
+		$this->assertSame(
 			"SELECT `id` FROM `t1` INNER JOIN `t2` ON t2.id = t1.id WHERE id > '10'"
 				. " GROUP BY `grp`"
 			, $s->toString($this->quoter())
@@ -29,7 +29,7 @@ class SelectTest extends \b2\tests\Base
 
 		$s->orderBy('ord', 'DESC');
 
-		$this->assertEquals(
+		$this->assertSame(
 			"SELECT `id` FROM `t1` INNER JOIN `t2` ON t2.id = t1.id WHERE id > '10'"
 				. " GROUP BY `grp`"
 				. " ORDER BY `ord` DESC"
@@ -39,7 +39,7 @@ class SelectTest extends \b2\tests\Base
 		$s->limit(10);
 		$s->offset(20);
 
-		$this->assertEquals(
+		$this->assertSame(
 			"SELECT `id` FROM `t1` INNER JOIN `t2` ON t2.id = t1.id WHERE id > '10'"
 				. " GROUP BY `grp`"
 				. " ORDER BY `ord` DESC"
@@ -49,7 +49,7 @@ class SelectTest extends \b2\tests\Base
 
 		$s->column(new PlainSql('YEAR() - bYear'), 'age');
 
-		$this->assertEquals(
+		$this->assertSame(
 			"SELECT `id`, YEAR() - bYear AS `age` FROM `t1` INNER JOIN `t2` ON t2.id = t1.id WHERE id > '10'"
 				. " GROUP BY `grp`"
 				. " ORDER BY `ord` DESC"
@@ -61,15 +61,15 @@ class SelectTest extends \b2\tests\Base
 		$s = new Select();
 		$s->table('user');
 		$s->column('*');
-		$this->assertEquals("SELECT * FROM `user`", $s->toString($this->quoter()));
+		$this->assertSame("SELECT * FROM `user`", $s->toString($this->quoter()));
 
 		$s = new Select('pay');
 		$s->columns(['id', 'value' => 'price', 'sku']);
-		$this->assertEquals("SELECT `id`, `price` AS `value`, `sku` FROM `pay`", $s->toString($this->quoter()));
+		$this->assertSame("SELECT `id`, `price` AS `value`, `sku` FROM `pay`", $s->toString($this->quoter()));
 
 		$s = new Select('pay');
 		$s->allColumns();
-		$this->assertEquals("SELECT * FROM `pay`", $s->toString($this->quoter()));
+		$this->assertSame("SELECT * FROM `pay`", $s->toString($this->quoter()));
 	}
 
 	/**

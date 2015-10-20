@@ -12,7 +12,7 @@ class PlainSqlTest extends \b2\tests\Base
 
 		$ps = new PlainSql($sql);
 
-		$this->assertEquals($sql, $ps->toString($this->quoter()));
+		$this->assertSame($sql, $ps->toString($this->quoter()));
 	}
 
 	/**
@@ -25,10 +25,10 @@ class PlainSqlTest extends \b2\tests\Base
 
 	public function testBinds() {
 		$ps = new PlainSql('hello', []);
-		$this->assertEquals('hello', $ps->toString($this->quoter()));
+		$this->assertSame('hello', $ps->toString($this->quoter()));
 
 		$ps = new PlainSql('hello > ?', [new Constant(1)]);
-		$this->assertEquals("hello > '1'", $ps->toString($this->quoter()));
+		$this->assertSame("hello > '1'", $ps->toString($this->quoter()));
 
 		$ps = new PlainSql(
 			'first=:first second=? third=:third',
@@ -38,7 +38,7 @@ class PlainSqlTest extends \b2\tests\Base
 				':first' => new Identifier('first'),
 			]
 		);
-		$this->assertEquals("first=`first` second=`second` third='third'", $ps->toString($this->quoter()));
+		$this->assertSame("first=`first` second=`second` third='third'", $ps->toString($this->quoter()));
 	}
 
 	/**

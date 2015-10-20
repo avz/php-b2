@@ -30,7 +30,7 @@ class InsertTest extends \b2\tests\Base
 		$insert->row(['b' => 2, 'a' => 1, 'c' => 3]);
 		$insert->row(['c' => 3, 'a' => 1, 'b' => 2]);
 		$insert->row(['b' => 2, 'c' => 3, 'a' => 1]);
-		$this->assertEquals(
+		$this->assertSame(
 			"INSERT INTO `ttt`(`a`, `b`, `c`) VALUES ('1', '2', '3'), ('1', '2', '3'), ('1', '2', '3')",
 			$insert->toString($this->quoter())
 		);
@@ -40,7 +40,7 @@ class InsertTest extends \b2\tests\Base
 		$insert = new Insert('ttt');
 		$insert->row(['hello' => 'world']);
 
-		$this->assertEquals("INSERT INTO `ttt`(`hello`) VALUES ('world')", $insert->toString($this->quoter()));
+		$this->assertSame("INSERT INTO `ttt`(`hello`) VALUES ('world')", $insert->toString($this->quoter()));
 	}
 
 	public function testMultiRows() {
@@ -48,19 +48,19 @@ class InsertTest extends \b2\tests\Base
 		$insert->row(['hello' => 'world']);
 		$insert->row(['hello' => 'hello']);
 
-		$this->assertEquals("INSERT INTO `ttt`(`hello`) VALUES ('world'), ('hello')", $insert->toString($this->quoter()));
+		$this->assertSame("INSERT INTO `ttt`(`hello`) VALUES ('world'), ('hello')", $insert->toString($this->quoter()));
 
 		$insert->row(['hello' => 'foo']);
 
-		$this->assertEquals("INSERT INTO `ttt`(`hello`) VALUES ('world'), ('hello'), ('foo')", $insert->toString($this->quoter()));
+		$this->assertSame("INSERT INTO `ttt`(`hello`) VALUES ('world'), ('hello'), ('foo')", $insert->toString($this->quoter()));
 
 		$insert = new Insert('aaa');
 		$insert->rows([['hello' => 'world'], ['hello' => 'hello']]);
 
-		$this->assertEquals("INSERT INTO `aaa`(`hello`) VALUES ('world'), ('hello')", $insert->toString($this->quoter()));
+		$this->assertSame("INSERT INTO `aaa`(`hello`) VALUES ('world'), ('hello')", $insert->toString($this->quoter()));
 
 		$insert->row(['hello' => 'foo']);
-		$this->assertEquals("INSERT INTO `aaa`(`hello`) VALUES ('world'), ('hello'), ('foo')", $insert->toString($this->quoter()));
+		$this->assertSame("INSERT INTO `aaa`(`hello`) VALUES ('world'), ('hello'), ('foo')", $insert->toString($this->quoter()));
 	}
 
 	public function testIgnore() {
@@ -68,7 +68,7 @@ class InsertTest extends \b2\tests\Base
 		$insert->row(['hello' => 'world']);
 		$insert->ignore();
 
-		$this->assertEquals("INSERT IGNORE INTO `ttt`(`hello`) VALUES ('world')", $insert->toString($this->quoter()));
+		$this->assertSame("INSERT IGNORE INTO `ttt`(`hello`) VALUES ('world')", $insert->toString($this->quoter()));
 	}
 
 	public function testReplace() {
@@ -76,33 +76,33 @@ class InsertTest extends \b2\tests\Base
 		$insert->row(['hello' => 'world']);
 		$insert->replace();
 
-		$this->assertEquals("REPLACE INTO `ttt`(`hello`) VALUES ('world')", $insert->toString($this->quoter()));
+		$this->assertSame("REPLACE INTO `ttt`(`hello`) VALUES ('world')", $insert->toString($this->quoter()));
 	}
 
 	public function testOnDuplicateUpdate() {
 		$insert = new Insert('t');
 		$insert->row(['a' => 'b', 'c' => 'd', 'e' => 'f']);
 		$insert->onDuplicateKeyUpdate();
-		$this->assertEquals(
+		$this->assertSame(
 			"INSERT INTO `t`(`a`, `c`, `e`) VALUES ('b', 'd', 'f') ON DUPLICATE KEY UPDATE `a` = VALUES(`a`), `c` = VALUES(`c`), `e` = VALUES(`e`)",
 			$insert->toString($this->quoter())
 		);
 
 		$insert->onDuplicateKeyUpdate('a');
-		$this->assertEquals(
+		$this->assertSame(
 			"INSERT INTO `t`(`a`, `c`, `e`) VALUES ('b', 'd', 'f') ON DUPLICATE KEY UPDATE `a` = VALUES(`a`), `c` = VALUES(`c`), `e` = VALUES(`e`)",
 			$insert->toString($this->quoter())
 		);
 
 		$insert->onDuplicateKeyUpdate(['a' => 'b']);
-		$this->assertEquals(
+		$this->assertSame(
 			"INSERT INTO `t`(`a`, `c`, `e`) VALUES ('b', 'd', 'f') ON DUPLICATE KEY UPDATE `a` = 'b', `c` = VALUES(`c`), `e` = VALUES(`e`)",
 			$insert->toString($this->quoter())
 		);
 
 		$insert->onDuplicateKeyUpdate(['a' => new PlainSql('1 + 1')]);
 
-		$this->assertEquals(
+		$this->assertSame(
 			"INSERT INTO `t`(`a`, `c`, `e`) VALUES ('b', 'd', 'f') ON DUPLICATE KEY UPDATE `a` = 1 + 1, `c` = VALUES(`c`), `e` = VALUES(`e`)",
 			$insert->toString($this->quoter())
 		);
@@ -113,7 +113,7 @@ class InsertTest extends \b2\tests\Base
 		$insert->onDuplicateKeyUpdate('e');
 		$insert->row(['e' => 'f']);
 
-		$this->assertEquals(
+		$this->assertSame(
 			"INSERT INTO `b`(`e`) VALUES ('f') ON DUPLICATE KEY UPDATE `e` = VALUES(`e`)",
 			$insert->toString($this->quoter())
 		);
@@ -122,7 +122,7 @@ class InsertTest extends \b2\tests\Base
 	public function testComplexInValue() {
 		$insert = new Insert('t');
 		$insert->row(['a' => new PlainSql('1000 + 100')]);
-		$this->assertEquals(
+		$this->assertSame(
 			'INSERT INTO `t`(`a`) VALUES (1000 + 100)',
 			$insert->toString($this->quoter())
 		);

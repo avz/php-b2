@@ -12,16 +12,16 @@ class BiOperationTest extends \b2\tests\Base
 		$operanb2 = new Identifier('hello');
 
 		$o = new BiOperation($operand1, 'AND', $operanb2);
-		$this->assertEquals("'10' AND `hello`", $o->toString($this->quoter()));
+		$this->assertSame("'10' AND `hello`", $o->toString($this->quoter()));
 
 		$o = new BiOperation($operanb2, '=', $operand1);
-		$this->assertEquals("`hello` = '10'", $o->toString($this->quoter()));
+		$this->assertSame("`hello` = '10'", $o->toString($this->quoter()));
 
 		$o = new BiOperation($operanb2, '=', $operanb2);
-		$this->assertEquals("`hello` = `hello`", $o->toString($this->quoter()));
+		$this->assertSame("`hello` = `hello`", $o->toString($this->quoter()));
 
 		$operand3 = new BiOperation(new Identifier('sub'), '=', new Constant('val'));
 		$o = new BiOperation($operanb2, 'AND', $operand3);
-		$this->assertEquals("`hello` AND (`sub` = 'val')", $o->toString($this->quoter()));
+		$this->assertSame("`hello` AND (`sub` = 'val')", $o->toString($this->quoter()));
 	}
 }

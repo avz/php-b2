@@ -22,16 +22,16 @@ class HasLimitTest extends \b2\tests\Base
 
 		$l->limit(10);
 
-		$this->assertEquals('LIMIT 10', $l->toString($this->quoter()));
+		$this->assertSame('LIMIT 10', $l->toString($this->quoter()));
 		$l->offset(20);
-		$this->assertEquals('LIMIT 10 OFFSET 20', $l->toString($this->quoter()));
+		$this->assertSame('LIMIT 10 OFFSET 20', $l->toString($this->quoter()));
 	}
 
 	public function testEmpty() {
 		$l = new SimpleLimitable;
-		$this->assertEquals(true, $l->isEmpty());
+		$this->assertSame(true, $l->isEmpty());
 		$l->limit(10);
-		$this->assertEquals(false, $l->isEmpty());
+		$this->assertSame(false, $l->isEmpty());
 	}
 
 	/**
