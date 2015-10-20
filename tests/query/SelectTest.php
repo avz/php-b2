@@ -144,4 +144,14 @@ class SelectTest extends \b2\tests\Base
 		$s = new Select('hi');
 		$s->column(new \stdClass);
 	}
+
+	/**
+	 * @expectedException b2\Exception
+	 * @expectedExceptionMessage Table is not specified
+	 */
+	public function testNoTable() {
+		$s = new Select();
+		$s->column('id');
+		$s->toString($this->quoter());
+	}
 }

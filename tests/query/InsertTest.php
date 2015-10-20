@@ -126,4 +126,14 @@ class InsertTest extends \b2\tests\Base
 			$insert->toString($this->quoter())
 		);
 	}
+
+	/**
+	 * @expectedException b2\Exception
+	 * @expectedExceptionMessage Table is not specified
+	 */
+	public function testNoTable() {
+		$d = new Insert();
+		$d->row(['a' => 1]);
+		$d->toString($this->quoter());
+	}
 }

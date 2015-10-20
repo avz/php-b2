@@ -22,7 +22,7 @@ class Select extends \b2\Query
 	 */
 	private $columns = [];
 
-	public function __construct($table)
+	public function __construct($table = null)
 	{
 		parent::__construct($table);
 
@@ -37,7 +37,7 @@ class Select extends \b2\Query
 
 		$sql = 'SELECT ';
 		$sql .= $this->columnsToString($quote);
-		$sql .= ' FROM ' . $this->table->toString($quote);
+		$sql .= ' FROM ' . $this->needTable()->toString($quote);
 
 		$sql = $this->joinsConcatSql($quote, $sql);
 		$sql = $this->whereConcatSql($quote, $sql);

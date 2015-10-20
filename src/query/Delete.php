@@ -7,7 +7,7 @@ class Delete extends \b2\Query
 	use \b2\ability\HasOrder;
 	use \b2\ability\HasLimit;
 
-	public function __construct($table)
+	public function __construct($table = null)
 	{
 		parent::__construct($table);
 
@@ -16,7 +16,7 @@ class Delete extends \b2\Query
 
 	public function toString(\b2\Quote $quote)
 	{
-		$sql = 'DELETE FROM ' . $this->table->toString($quote);
+		$sql = 'DELETE FROM ' . $this->needTable()->toString($quote);
 		$sql = $this->whereConcatSql($quote, $sql);
 		$sql = $this->orderConcatSql($quote, $sql);
 		$sql = $this->limitConcatSql($quote, $sql);

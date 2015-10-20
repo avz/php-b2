@@ -33,4 +33,13 @@ class DeleteTest extends \b2\tests\Base
 	public function testInvalidTable() {
 		$d = new Delete(10);
 	}
+
+	/**
+	 * @expectedException b2\Exception
+	 * @expectedExceptionMessage Table is not specified
+	 */
+	public function testNoTable() {
+		$d = new Delete();
+		$d->toString($this->quoter());
+	}
 }

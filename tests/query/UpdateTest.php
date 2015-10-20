@@ -37,4 +37,14 @@ class UpdateTest extends \b2\tests\Base
 		$u = new Update('hi');
 		$u->toString($this->quoter());
 	}
+
+	/**
+	 * @expectedException b2\Exception
+	 * @expectedExceptionMessage Table is not specified
+	 */
+	public function testNoTable() {
+		$u = new Update();
+		$u->set('a = b');
+		$u->toString($this->quoter());
+	}
 }

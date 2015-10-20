@@ -100,7 +100,7 @@ class Insert extends \b2\Query
 		if ($this->ignore)
 			$sql .= ' IGNORE';
 
-		$sql .= ' INTO ' . $this->table->toString($quote);
+		$sql .= ' INTO ' . $this->needTable()->toString($quote);
 
 		$sql .= '(' . $quote->identifier($this->keys) . ')';
 

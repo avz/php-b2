@@ -16,7 +16,7 @@ class Update extends \b2\Query
 	 */
 	private $sets = [];
 
-	public function __construct($table)
+	public function __construct($table = null)
 	{
 		parent::__construct($table);
 
@@ -28,7 +28,7 @@ class Update extends \b2\Query
 		if (!$this->sets)
 			throw new Exception('Empty set');
 
-		$sql = 'UPDATE ' . $this->table->toString($quote);
+		$sql = 'UPDATE ' . $this->needTable()->toString($quote);
 
 		$sets = [];
 		foreach ($this->sets as $expression) {
