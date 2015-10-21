@@ -1,6 +1,10 @@
 <?php
 namespace b2\tests;
 
+use b2\literal\Identifier;
+use b2\literal\Constant;
+use b2\literal\PlainSql;
+
 class B2Test extends \b2\tests\Base
 {
 	public function testSelect() {
@@ -79,5 +83,33 @@ class B2Test extends \b2\tests\Base
 		$expected->rows([['a' => 'b'], ['a' => 'd']]);
 		$actual = $b2->insert('user', [['a' => 'b'], ['a' => 'd']]);
 		$this->assertEquals($expected, $actual);
+	}
+
+	public function testTable() {
+		$b2 = new \b2\B2;
+
+		$this->assertEquals(new \b2\literal\Identifier('hello'), $b2->table('hello'));
+		$this->assertEquals(new \b2\literal\Identifier('hello.world'), $b2->table('hello.world'));
+	}
+
+	public function testField() {
+		$b2 = new \b2\B2;
+
+		$this->assertEquals(new \b2\literal\Identifier('hello'), $b2->field('hello'));
+		$this->assertEquals(new \b2\literal\Identifier('hello.world'), $b2->field('hello.world'));
+	}
+
+	public function testConstant() {
+		$b2 = new \b2\B2;
+
+		$this->assertEquals(new \b2\literal\Constant('hello'), $b2->constant('hello'));
+		$this->assertEquals(new \b2\literal\Constant(10), $b2->constant(10));
+	}
+
+	public function testSql() {
+		$b2 = new \b2\B2;
+
+		$this->assertEquals(new PlainSql('hello'), $b2->sql('hello'));
+		$this->assertEquals(new PlainSql('hello ?', [new Constant(1)]), $b2->sql('hello ?', [1]));
 	}
 }
