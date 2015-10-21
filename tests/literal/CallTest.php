@@ -13,4 +13,20 @@ class CallTest extends \b2\tests\Base
 		$this->assertSame("HELLO2('1', '2')", (new Call('HELLO2', [new Constant(1), new Constant(2)]))->toString($this->quoter()));
 		$this->assertSame("HELLO3('1', '2', '3')", (new Call('HELLO3', [new Constant(1), new Constant(2), new Constant(3)]))->toString($this->quoter()));
 	}
+
+	/**
+	 * @expectedException \b2\Exception
+	 * @expectedExceptionMessage Function name must be a string
+	 */
+	public function testInvalidName() {
+		new Call(10, ['hello']);
+	}
+
+	/**
+	 * @expectedException \b2\Exception
+	 * @expectedExceptionMessage Literals expected in arguments
+	 */
+	public function testInvalidArgument() {
+		new Call('ERROR', ['hello']);
+	}
 }
