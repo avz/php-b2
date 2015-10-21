@@ -4,6 +4,7 @@ namespace b2\tests\ability;
 use b2\literal\PlainSql;
 use b2\literal\Constant;
 use b2\literal\Identifier;
+use b2\literal\BiOperation;
 use b2\ability\WhereUpdateCommon;
 
 class WhereUpdateCommonTest extends \b2\tests\Base
@@ -38,5 +39,17 @@ class WhereUpdateCommonTest extends \b2\tests\Base
 	 */
 	public function testInvalidArgumentLiteralWithBinds() {
 		WhereUpdateCommon::extractExpressionsFromArgs([new PlainSql('column'), 'hello']);
+	}
+
+	public function testPlainSql() {
+		$r = WhereUpdateCommon::extractExpressionsFromArgs([new PlainSql('hello')]);
+
+		$this->assertEquals([new PlainSql('hello')], $r);
+	}
+
+	public function testPlainKeyValue() {
+		$r = WhereUpdateCommon::extractExpressionsFromArgs(['column', 'value']);
+
+		$this->assertEquals([new BiOperation(new Identifier('column'), '=', new Constant('value'))], $r);
 	}
 }
