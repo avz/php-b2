@@ -57,4 +57,9 @@ class HasGroupTest extends \b2\tests\Base
 		$s = new SimpleGroupable();
 		$s->groupBy(new \stdClass);
 	}
+
+	public function testEmpty() {
+		$s = new SimpleGroupable;
+		$this->assertSame(null, $s->toString($this->quoter()));
+	}
 }

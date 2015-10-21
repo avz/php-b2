@@ -65,4 +65,9 @@ class HasOrderTest extends \b2\tests\Base
 		$s = new SimpleOrderable();
 		$s->orderBy(new \stdClass);
 	}
+
+	public function testEmpty() {
+		$s = new SimpleOrderable();
+		$this->assertSame(null, $s->toString($this->quoter()));
+	}
 }
