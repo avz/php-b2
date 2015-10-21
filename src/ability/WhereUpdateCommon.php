@@ -70,6 +70,10 @@ abstract class WhereUpdateCommon {
 		$expressions = [];
 
 		if (is_string($fieldNameOrPrepared)) {
+			/*
+			 * Агрументы либо (prepared, binds), либо (column, value)
+			 */
+
 			if (PlainSql::hasPlaceholders($fieldNameOrPrepared) || $numArgs === 1) {
 				if ($numArgs == 1) {
 					$valueOrBinds = [];
@@ -86,6 +90,9 @@ abstract class WhereUpdateCommon {
 				$expressions[] = self::fieldEqual($fieldNameOrPrepared, $valueOrBinds);
 			}
 		} else if ($fieldNameOrPrepared instanceof Literal) {
+			/*
+			 * Аргумент - литерал. Дополнительных аргументов не нужно
+			 */
 
 			if ($numArgs !== 1)
 				throw new Exception('Two-arguments form is not allowed when Literal given');
@@ -93,6 +100,12 @@ abstract class WhereUpdateCommon {
 			$expressions[] = $fieldNameOrPrepared;
 
 		} else if (is_array($fieldNameOrPrepared)) {
+			/*
+			 * Аргумент - массив соответствий типа [column1 => value1, column2 => value2]
+			 */
+
+			if ($numArgs !== 1)
+				throw new Exception('Exactly one argument expected');
 
 			foreach ($fieldNameOrPrepared as $column => $value) {
 				$expressions[] = self::fieldEqual($column, $value);
