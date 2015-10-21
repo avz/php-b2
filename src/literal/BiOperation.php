@@ -28,7 +28,6 @@ class BiOperation extends \b2\Literal
 			$right = "($right)";
 
 		return $left . ' ' . $this->operator . ' ' . $right;
-		;
 	}
 
 }
