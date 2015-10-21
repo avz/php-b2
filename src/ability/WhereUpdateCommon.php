@@ -84,6 +84,9 @@ abstract class WhereUpdateCommon {
 			}
 		} else if ($fieldNameOrPrepared instanceof Literal) {
 
+			if ($numArgs !== 1)
+				throw new Exception('Two-arguments form is not allowed when Literal given');
+
 			$expressions[] = $fieldNameOrPrepared;
 
 		} else if (is_array($fieldNameOrPrepared)) {
