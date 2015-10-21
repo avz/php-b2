@@ -14,7 +14,23 @@ class WhereUpdateCommonTest extends \b2\tests\Base
 	 * @expectedExceptionMessage Incorrect expression definition
 	 */
 	public function testInvalidArgumentObject() {
-		WhereUpdateCommon::extractExpressionsFromArgs([new \stdClass]);
+		WhereUpdateCommon::extractExpressions([new \stdClass]);
+	}
+
+	/**
+	 * @expectedException b2\Exception
+	 * @expectedExceptionMessage Too many arguments
+	 */
+	public function testTooMany() {
+		WhereUpdateCommon::extractExpressions(['a', 'b', 'c']);
+	}
+
+	/**
+	 * @expectedException b2\Exception
+	 * @expectedExceptionMessage Not enough arguments
+	 */
+	public function testNotEnough() {
+		WhereUpdateCommon::extractExpressions([]);
 	}
 
 	/**
@@ -22,7 +38,7 @@ class WhereUpdateCommonTest extends \b2\tests\Base
 	 * @expectedExceptionMessage Incorrect expression definition
 	 */
 	public function testInvalidArgumentNull() {
-		WhereUpdateCommon::extractExpressionsFromArgs([null]);
+		WhereUpdateCommon::extractExpressions([null]);
 	}
 
 	/**
@@ -30,7 +46,7 @@ class WhereUpdateCommonTest extends \b2\tests\Base
 	 * @expectedExceptionMessage Incorrect expression definition
 	 */
 	public function testInvalidArgumentBool() {
-		WhereUpdateCommon::extractExpressionsFromArgs([true]);
+		WhereUpdateCommon::extractExpressions([true]);
 	}
 
 		/**
@@ -38,17 +54,17 @@ class WhereUpdateCommonTest extends \b2\tests\Base
 	 * @expectedExceptionMessage Two-arguments form is not allowed when Literal given
 	 */
 	public function testInvalidArgumentLiteralWithBinds() {
-		WhereUpdateCommon::extractExpressionsFromArgs([new PlainSql('column'), 'hello']);
+		WhereUpdateCommon::extractExpressions([new PlainSql('column'), 'hello']);
 	}
 
 	public function testPlainSql() {
-		$r = WhereUpdateCommon::extractExpressionsFromArgs([new PlainSql('hello')]);
+		$r = WhereUpdateCommon::extractExpressions([new PlainSql('hello')]);
 
 		$this->assertEquals([new PlainSql('hello')], $r);
 	}
 
 	public function testPlainKeyValue() {
-		$r = WhereUpdateCommon::extractExpressionsFromArgs(['column', 'value']);
+		$r = WhereUpdateCommon::extractExpressions(['column', 'value']);
 
 		$this->assertEquals([new BiOperation(new Identifier('column'), '=', new Constant('value'))], $r);
 	}
