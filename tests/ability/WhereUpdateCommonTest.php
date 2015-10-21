@@ -31,4 +31,12 @@ class WhereUpdateCommonTest extends \b2\tests\Base
 	public function testInvalidArgumentBool() {
 		WhereUpdateCommon::extractExpressionsFromArgs([true]);
 	}
+
+		/**
+	 * @expectedException b2\Exception
+	 * @expectedExceptionMessage Two-arguments form is not allowed when Literal given
+	 */
+	public function testInvalidArgumentLiteralWithBinds() {
+		WhereUpdateCommon::extractExpressionsFromArgs([new PlainSql('column'), 'hello']);
+	}
 }
