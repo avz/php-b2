@@ -15,7 +15,7 @@ class ConstantTest extends \b2\tests\Base
 
 	/**
 	 * @expectedException \b2\Exception
-	 * @expectExceptionMessage Objects is not allowed
+	 * @expectedExceptionMessage Object is not allowed
 	 */
 	public function testInvalidArgument() {
 		new Constant(new \stdClass);
