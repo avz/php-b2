@@ -13,7 +13,7 @@ trait HasWhere
 	{
 		$where = clone $this->where;
 
-		$expressions = WhereUpdateCommon::extractExpressionsFromArgs(func_get_args());
+		$expressions = WhereUpdateCommon::extractExpressions(func_get_args());
 
 		foreach ($expressions as $expression) {
 			$where->addAnd($expression);

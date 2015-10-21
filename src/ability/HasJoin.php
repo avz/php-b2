@@ -69,7 +69,7 @@ trait HasJoin {
 			throw new Exception('Table name or Literal expected');
 
 		$condArgs = array_slice(func_get_args(), 2);
-		$joinCondition = WhereUpdateCommon::extractExpressionsFromArgs($condArgs);
+		$joinCondition = WhereUpdateCommon::extractExpressions($condArgs);
 
 		$where = new Where;
 		foreach ($joinCondition as $jc) {

@@ -51,12 +51,15 @@ abstract class WhereUpdateCommon {
 		return $e;
 	}
 
-	static public function extractExpressionsFromArgs(array $args)
+	static public function extractExpressions(array $args)
 	{
 		$numArgs = sizeof($args);
 
 		if (!$numArgs)
 			throw new Exception('Not enough arguments');
+
+		if ($numArgs > 2)
+			throw new Exception('Too many arguments');
 
 		$fieldNameOrPrepared = $args[0];
 		$valueOrBinds = null;

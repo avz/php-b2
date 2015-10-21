@@ -45,7 +45,7 @@ class Update extends \b2\Query
 	}
 
 	public function set($fieldNameOrPrepared, $valueOrBinds = null/* ... */) {
-		$expressions = \b2\ability\WhereUpdateCommon::extractExpressionsFromArgs(func_get_args());
+		$expressions = \b2\ability\WhereUpdateCommon::extractExpressions(func_get_args());
 
 		$this->sets = array_merge($this->sets, $expressions);
 
