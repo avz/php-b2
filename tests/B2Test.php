@@ -7,7 +7,8 @@ use b2\literal\PlainSql;
 
 class B2Test extends \b2\tests\Base
 {
-	public function testSelect() {
+	public function testSelect()
+	{
 		$b2 = new \b2\B2;
 
 		$expected = new \b2\query\Select('user');
@@ -37,7 +38,8 @@ class B2Test extends \b2\tests\Base
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testUpdate() {
+	public function testUpdate()
+	{
 		$b2 = new \b2\B2;
 
 		$expected = new \b2\query\Update('user');
@@ -51,7 +53,8 @@ class B2Test extends \b2\tests\Base
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testDelete() {
+	public function testDelete()
+	{
 		$b2 = new \b2\B2;
 
 		$expected = new \b2\query\Delete('user');
@@ -65,7 +68,8 @@ class B2Test extends \b2\tests\Base
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testInsert() {
+	public function testInsert()
+	{
 		$b2 = new \b2\B2;
 
 		$expected = new \b2\query\Insert('user');
@@ -85,28 +89,32 @@ class B2Test extends \b2\tests\Base
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testTable() {
+	public function testTable()
+	{
 		$b2 = new \b2\B2;
 
 		$this->assertEquals(new \b2\literal\Identifier('hello'), $b2->table('hello'));
 		$this->assertEquals(new \b2\literal\Identifier('hello.world'), $b2->table('hello.world'));
 	}
 
-	public function testField() {
+	public function testField()
+	{
 		$b2 = new \b2\B2;
 
 		$this->assertEquals(new \b2\literal\Identifier('hello'), $b2->field('hello'));
 		$this->assertEquals(new \b2\literal\Identifier('hello.world'), $b2->field('hello.world'));
 	}
 
-	public function testConstant() {
+	public function testConstant()
+	{
 		$b2 = new \b2\B2;
 
 		$this->assertEquals(new \b2\literal\Constant('hello'), $b2->constant('hello'));
 		$this->assertEquals(new \b2\literal\Constant(10), $b2->constant(10));
 	}
 
-	public function testSql() {
+	public function testSql()
+	{
 		$b2 = new \b2\B2;
 
 		$this->assertEquals(new PlainSql('hello'), $b2->sql('hello'));
