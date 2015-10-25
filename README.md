@@ -1,5 +1,7 @@
 # b2 - PHP SQL Query Builder for MySQL
 
+[![Build Status](https://travis-ci.org/avz/php-b2.svg?branch=master)](https://travis-ci.org/avz/php-b2)
+
 inspired by https://github.com/lichtner/fluentpdo
 
 ## Why are we doing this again?
