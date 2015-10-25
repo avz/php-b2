@@ -8,6 +8,7 @@ class ExamplesTest extends \b2\tests\Base
 		$this->expectOutputString(<<<EOF
 SELECT `uid`, `name`, `xp` FROM `user` WHERE id > '10'
 SELECT SUM(payment.price * '10') AS `sum` FROM `user` LEFT JOIN `payment` ON payment.id = user.id WHERE id = '10'
+SELECT `user`.`id`, SUM(payment.value) AS `sum` FROM `user` LEFT JOIN `payment` ON payment.id = user.id WHERE id > '10' ORDER BY `sum` DESC
 
 EOF
 		);

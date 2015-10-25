@@ -25,7 +25,7 @@ class InsertTest extends \b2\tests\Base
 		$insert->row(['hello1' => 'hello']);
 	}
 
-	public function testColumnsSort() {
+	public function testFieldsSort() {
 		$insert = new Insert('ttt');
 		$insert->row(['b' => 2, 'a' => 1, 'c' => 3]);
 		$insert->row(['c' => 3, 'a' => 1, 'b' => 2]);

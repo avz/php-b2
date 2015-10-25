@@ -63,13 +63,13 @@ class Insert extends \b2\Query
 	public function onDuplicateKeyUpdate($any = null)
 	{
 		if (is_null($any)) {
-			// update all of columns with `column` = VALUES(`column`)
+			// update all of fields with `field` = VALUES(`field`)
 			$this->onDuplicateKeyUpdateAll = true;
 		} else {
 			if (!is_array($any))
 				$any = [$any];
 
-			// list of columns to `column` = VALUES(`column`)
+			// list of fields to `field` = VALUES(`field`)
 			foreach ($any as $k => $v) {
 				if (is_numeric($k)) {
 					$this->onDuplicateKeyUpdates[$v] = new Call(
@@ -131,11 +131,11 @@ class Insert extends \b2\Query
 			$onDup = $this->onDuplicateKeyUpdates;
 
 			if ($this->onDuplicateKeyUpdateAll) {
-				foreach ($this->keys as $column) {
-					if (isset($onDup[$column]))
+				foreach ($this->keys as $field) {
+					if (isset($onDup[$field]))
 						continue; // override
 
-					$onDup[$column] = new Call('VALUES', [new Identifier($column)]);
+					$onDup[$field] = new Call('VALUES', [new Identifier($field)]);
 				}
 			}
 

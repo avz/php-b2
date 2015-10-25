@@ -61,7 +61,7 @@ class HasOrderTest extends \b2\tests\Base
 	 * @expectedException \b2\Exception
 	 * @expectedExceptionMessage Only string, null or Literal allowed
 	 */
-	public function testInvalidColumn() {
+	public function testInvalidField() {
 		$s = new SimpleOrderable();
 		$s->orderBy(new \stdClass);
 	}

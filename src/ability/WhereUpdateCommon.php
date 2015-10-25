@@ -22,11 +22,11 @@ abstract class WhereUpdateCommon {
 		return new PlainSql($prepared, $binds);
 	}
 
-	static private function fieldEqual($columnName, $columnValue)
+	static private function fieldEqual($fieldName, $fieldValue)
 	{
 		$e = null;
 
-		if (is_array($columnValue)) {
+		if (is_array($fieldValue)) {
 			$cases = array_map(
 				function ($value) {
 					if ($value instanceof Literal)
@@ -34,18 +34,18 @@ abstract class WhereUpdateCommon {
 					else
 						return new Constant($value);
 				},
-				$columnValue
+				$fieldValue
 			);
 
-			$e = new In(new Identifier($columnName), $cases);
+			$e = new In(new Identifier($fieldName), $cases);
 		} else {
 			$v = null;
-			if ($columnValue instanceof Literal)
-				$v = $columnValue;
+			if ($fieldValue instanceof Literal)
+				$v = $fieldValue;
 			else
-				$v = new Constant($columnValue);
+				$v = new Constant($fieldValue);
 
-			$e = new BiOperation(new Identifier($columnName), '=', $v);
+			$e = new BiOperation(new Identifier($fieldName), '=', $v);
 		}
 
 		return $e;
@@ -71,7 +71,7 @@ abstract class WhereUpdateCommon {
 
 		if (is_string($fieldNameOrPrepared)) {
 			/*
-			 * Агрументы либо (prepared, binds), либо (column, value)
+			 * Агрументы либо (prepared, binds), либо (field, value)
 			 */
 
 			if (PlainSql::hasPlaceholders($fieldNameOrPrepared) || $numArgs === 1) {
@@ -101,14 +101,14 @@ abstract class WhereUpdateCommon {
 
 		} else if (is_array($fieldNameOrPrepared)) {
 			/*
-			 * Аргумент - массив соответствий типа [column1 => value1, column2 => value2]
+			 * Аргумент - массив соответствий типа [field1 => value1, field2 => value2]
 			 */
 
 			if ($numArgs !== 1)
 				throw new Exception('Exactly one argument expected');
 
-			foreach ($fieldNameOrPrepared as $column => $value) {
-				$expressions[] = self::fieldEqual($column, $value);
+			foreach ($fieldNameOrPrepared as $field => $value) {
+				$expressions[] = self::fieldEqual($field, $value);
 			}
 		} else {
 			throw new Exception('Incorrect expression definition');

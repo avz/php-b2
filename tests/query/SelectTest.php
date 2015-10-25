@@ -8,7 +8,7 @@ class SelectTest extends \b2\tests\Base
 {
 	public function testToString() {
 		$s = new Select('t1');
-		$s->column('id');
+		$s->field('id');
 		$this->assertSame("SELECT `id` FROM `t1`", $s->toString($this->quoter()));
 
 		$s->where('id > ?', [10]);
@@ -47,7 +47,7 @@ class SelectTest extends \b2\tests\Base
 			, $s->toString($this->quoter())
 		);
 
-		$s->column(new PlainSql('YEAR() - bYear'), 'age');
+		$s->field(new PlainSql('YEAR() - bYear'), 'age');
 
 		$this->assertSame(
 			"SELECT `id`, YEAR() - bYear AS `age` FROM `t1` INNER JOIN `t2` ON t2.id = t1.id WHERE id > '10'"
@@ -60,23 +60,23 @@ class SelectTest extends \b2\tests\Base
 
 		$s = new Select();
 		$s->table('user');
-		$s->column('*');
+		$s->field('*');
 		$this->assertSame("SELECT * FROM `user`", $s->toString($this->quoter()));
 
 		$s = new Select('pay');
-		$s->columns(['id', 'value' => 'price', 'sku']);
+		$s->fields(['id', 'value' => 'price', 'sku']);
 		$this->assertSame("SELECT `id`, `price` AS `value`, `sku` FROM `pay`", $s->toString($this->quoter()));
 
 		$s = new Select('pay');
-		$s->allColumns();
+		$s->allFields();
 		$this->assertSame("SELECT * FROM `pay`", $s->toString($this->quoter()));
 	}
 
 	/**
 	 * @expectedException b2\Exception
-	 * @expectedExceptionMessage You must specify columns
+	 * @expectedExceptionMessage You must specify fields
 	 */
-	public function testEmptyColumns() {
+	public function testEmptyFields() {
 		$s = new Select('hi');
 		$s->toString($this->quoter());
 	}
@@ -87,7 +87,7 @@ class SelectTest extends \b2\tests\Base
 	 */
 	public function testAliasNotAString() {
 		$s = new Select('hi');
-		$s->column('c', 10);
+		$s->field('c', 10);
 	}
 
 	/**
@@ -96,7 +96,7 @@ class SelectTest extends \b2\tests\Base
 	 */
 	public function testAliasIsNumeric() {
 		$s = new Select('hi');
-		$s->column('c', '10');
+		$s->field('c', '10');
 	}
 
 	/**
@@ -105,7 +105,7 @@ class SelectTest extends \b2\tests\Base
 	 */
 	public function testAliasIsAsterisk() {
 		$s = new Select('hi');
-		$s->column('c', '*');
+		$s->field('c', '*');
 	}
 
 	/**
@@ -114,8 +114,8 @@ class SelectTest extends \b2\tests\Base
 	 */
 	public function testTooManyAsterisks() {
 		$s = new Select('hi');
-		$s->column('*');
-		$s->column('*');
+		$s->field('*');
+		$s->field('*');
 	}
 
 	/**
@@ -124,7 +124,7 @@ class SelectTest extends \b2\tests\Base
 	 */
 	public function testAliasToyAsterisk() {
 		$s = new Select('hi');
-		$s->column('*', 'jj');
+		$s->field('*', 'jj');
 	}
 
 	/**
@@ -133,17 +133,17 @@ class SelectTest extends \b2\tests\Base
 	 */
 	public function testNonUniqueAlias() {
 		$s = new Select('hi');
-		$s->column('a', 'c');
-		$s->column('b', 'c');
+		$s->field('a', 'c');
+		$s->field('b', 'c');
 	}
 
 	/**
 	 * @expectedException b2\Exception
-	 * @expectedExceptionMessage Column name or Literal expected
+	 * @expectedExceptionMessage Field name or Literal expected
 	 */
-	public function testInvalidColumn() {
+	public function testInvalidField() {
 		$s = new Select('hi');
-		$s->column(new \stdClass);
+		$s->field(new \stdClass);
 	}
 
 	/**
@@ -152,7 +152,7 @@ class SelectTest extends \b2\tests\Base
 	 */
 	public function testNoTable() {
 		$s = new Select();
-		$s->column('id');
+		$s->field('id');
 		$s->toString($this->quoter());
 	}
 }

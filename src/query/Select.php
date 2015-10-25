@@ -20,7 +20,7 @@ class Select extends \b2\Query
 	 *
 	 * @var b2\literal
 	 */
-	private $columns = [];
+	private $fields = [];
 
 	public function __construct($table = null)
 	{
@@ -31,12 +31,12 @@ class Select extends \b2\Query
 
 	public function toString(\b2\Quote $quote)
 	{
-		if (!$this->columns) {
-			throw new Exception('You must specify columns');
+		if (!$this->fields) {
+			throw new Exception('You must specify fields');
 		}
 
 		$sql = 'SELECT ';
-		$sql .= $this->columnsToString($quote);
+		$sql .= $this->fieldToString($quote);
 		$sql .= ' FROM ' . $this->needTable()->toString($quote);
 
 		$sql = $this->joinsConcatSql($quote, $sql);
@@ -48,21 +48,21 @@ class Select extends \b2\Query
 		return $sql;
 	}
 
-	private function columnsToString(\b2\Quote $quote) {
+	private function fieldToString(\b2\Quote $quote) {
 		$list = [];
 
-		foreach ($this->columns as $alias => $column) {
+		foreach ($this->fields as $alias => $field) {
 			if (ctype_digit((string)$alias) || $alias === '*') {
-				$list[] = $column->toString($quote);
+				$list[] = $field->toString($quote);
 			} else {
-				$list[] = $column->toString($quote) . ' AS ' . $quote->identifier($alias);
+				$list[] = $field->toString($quote) . ' AS ' . $quote->identifier($alias);
 			}
 		}
 
 		return implode(', ', $list);
 	}
 
-	public function column($column, $alias = null) {
+	public function field($name, $alias = null) {
 		$e = null;
 
 		if ($alias !== null) {
@@ -78,17 +78,17 @@ class Select extends \b2\Query
 				throw new Exception('Numerical aliases is not allowed');
 			}
 
-			if (isset($this->columns[$alias])) {
+			if (isset($this->fields[$alias])) {
 				throw new Exception('Non unique alias name: ' . $alias);
 			}
 		}
 
-		if ($column === '*') {
+		if ($name === '*') {
 			if ($alias !== null) {
 				throw new Exception("Can't set alias to '*'");
 			}
 
-			if (isset($this->columns['*'])) {
+			if (isset($this->fields['*'])) {
 				throw new Exception("Multiple definition of '*'");
 			}
 
@@ -96,35 +96,35 @@ class Select extends \b2\Query
 
 			$e = new PlainSql('*');
 
-		} elseif ($column instanceof Literal) {
-			$e = $column;
+		} elseif ($name instanceof Literal) {
+			$e = $name;
 
-		} elseif (is_string($column)) {
-			$e = new Identifier($column);
+		} elseif (is_string($name)) {
+			$e = new Identifier($name);
 
 		} else {
-			throw new Exception('Column name or Literal expected');
+			throw new Exception('Field name or Literal expected');
 		}
 
 		if ($alias !== null) {
-			$this->columns[$alias] = $e;
+			$this->fields[$alias] = $e;
 		} else {
-			$this->columns[] = $e;
+			$this->fields[] = $e;
 		}
 
 		return $this;
 	}
 
-	public function allColumns() {
-		$this->column('*');
+	public function allFields() {
+		$this->field('*');
 	}
 
-	public function columns(array $columns) {
-		foreach ($columns as $alias => $col) {
+	public function fields(array $fields) {
+		foreach ($fields as $alias => $field) {
 			if (ctype_digit((string)$alias))
-				$this->column($col);
+				$this->field($field);
 			else
-				$this->column($col, $alias);
+				$this->field($field, $alias);
 		}
 
 		return $this;

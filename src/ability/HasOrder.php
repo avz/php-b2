@@ -10,7 +10,7 @@ trait HasOrder
 {
 	private $orders = [];
 
-	public function orderBy($column, $direction = 'ASC')
+	public function orderBy($field, $direction = 'ASC')
 	{
 		$e = null;
 
@@ -18,11 +18,11 @@ trait HasOrder
 			throw new Exception('Direction must be ASC or DESC');
 		}
 
-		if (is_string($column)) {
-			$e = new Identifier($column);
-		} elseif ($column instanceof Literal) {
-			$e = $column;
-		} elseif ($column === null) {
+		if (is_string($field)) {
+			$e = new Identifier($field);
+		} elseif ($field instanceof Literal) {
+			$e = $field;
+		} elseif ($field === null) {
 			$e = new Constant(null);
 
 			if ($direction !== 'ASC')

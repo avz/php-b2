@@ -18,8 +18,8 @@ class DeleteTest extends \b2\tests\Base
 		$d->limit(10);
 		$this->assertSame('DELETE FROM some strange sql LIMIT 10', $d->toString($this->quoter()));
 
-		$d->orderBy('column');
-		$this->assertSame('DELETE FROM some strange sql ORDER BY `column` LIMIT 10', $d->toString($this->quoter()));
+		$d->orderBy('field');
+		$this->assertSame('DELETE FROM some strange sql ORDER BY `field` LIMIT 10', $d->toString($this->quoter()));
 
 		$d = new Delete();
 		$d->table('table');

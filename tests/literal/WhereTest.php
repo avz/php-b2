@@ -12,14 +12,14 @@ class WhereTest extends \b2\tests\Base
 		$this->assertSame('`hello`', $where->toString($this->quoter()));
 
 		$where = new Where;
-		$where->addAnd(new Identifier('column'));
-		$this->assertSame('`column`', $where->toString($this->quoter()));
+		$where->addAnd(new Identifier('field'));
+		$this->assertSame('`field`', $where->toString($this->quoter()));
 
-		$where->addAnd(new Identifier('column2'));
-		$this->assertSame('`column` AND `column2`', $where->toString($this->quoter()));
+		$where->addAnd(new Identifier('field2'));
+		$this->assertSame('`field` AND `field2`', $where->toString($this->quoter()));
 
-		$where->addOr(new Identifier('column3'));
-		$this->assertSame('(`column` AND `column2`) OR `column3`', $where->toString($this->quoter()));
+		$where->addOr(new Identifier('field3'));
+		$this->assertSame('(`field` AND `field2`) OR `field3`', $where->toString($this->quoter()));
 
 		$where = new Where;
 		$where->addOr(new Constant(10));

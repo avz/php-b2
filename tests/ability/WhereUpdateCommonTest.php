@@ -54,7 +54,7 @@ class WhereUpdateCommonTest extends \b2\tests\Base
 	 * @expectedExceptionMessage Two-arguments form is not allowed when Literal given
 	 */
 	public function testInvalidArgumentLiteralWithBinds() {
-		WhereUpdateCommon::extractExpressions([new PlainSql('column'), 'hello']);
+		WhereUpdateCommon::extractExpressions([new PlainSql('field'), 'hello']);
 	}
 
 	public function testPlainSql() {
@@ -64,8 +64,8 @@ class WhereUpdateCommonTest extends \b2\tests\Base
 	}
 
 	public function testPlainKeyValue() {
-		$r = WhereUpdateCommon::extractExpressions(['column', 'value']);
+		$r = WhereUpdateCommon::extractExpressions(['field', 'value']);
 
-		$this->assertEquals([new BiOperation(new Identifier('column'), '=', new Constant('value'))], $r);
+		$this->assertEquals([new BiOperation(new Identifier('field'), '=', new Constant('value'))], $r);
 	}
 }

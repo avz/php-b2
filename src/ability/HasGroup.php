@@ -5,7 +5,7 @@ trait HasGroup
 {
 	private $groups = [];
 
-	public function groupBy($column, $direction = 'ASC')
+	public function groupBy($field, $direction = 'ASC')
 	{
 		$e = null;
 
@@ -13,11 +13,11 @@ trait HasGroup
 			throw new \b2\Exception('Direction must be ASC or DESC');
 		}
 
-		if (is_string($column)) {
-			$e = new \b2\literal\Identifier($column);
+		if (is_string($field)) {
+			$e = new \b2\literal\Identifier($field);
 
-		} elseif ($column instanceof \b2\Literal) {
-			$e = $column;
+		} elseif ($field instanceof \b2\Literal) {
+			$e = $field;
 		} else {
 			throw new \b2\Exception('Only string or Literal allowed');
 		}

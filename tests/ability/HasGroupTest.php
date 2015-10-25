@@ -53,7 +53,7 @@ class HasGroupTest extends \b2\tests\Base
 	 * @expectedException b2\Exception
 	 * @expectedExceptionMessage Only string or Literal allowed
 	 */
-	public function testInvalidColumn() {
+	public function testInvalidField() {
 		$s = new SimpleGroupable();
 		$s->groupBy(new \stdClass);
 	}
