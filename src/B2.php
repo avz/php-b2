@@ -49,7 +49,7 @@ class B2
 
 	/**
 	 * @param string|Literal $table
-	 * @return \b2\Select
+	 * @return \b2\query\Select
 	 */
 	public function select($table /*, WHEREDEF */)
 	{
@@ -63,7 +63,7 @@ class B2
 
 	/**
 	 * @param string|Literal $table
-	 * @return \b2\Update
+	 * @return \b2\query\Update
 	 */
 	public function update($table /*, WHEREDEF */)
 	{
@@ -77,7 +77,7 @@ class B2
 
 	/**
 	 * @param string|Literal $table
-	 * @return \b2\Delete
+	 * @return \b2\query\Delete
 	 */
 	public function delete($table /*, WHEREDEF */)
 	{
@@ -92,7 +92,7 @@ class B2
 	/**
 	 * @param string|Literal $table
 	 * @param array $rows
-	 * @return \b2\Insert
+	 * @return \b2\query\Insert
 	 */
 	public function insert($table, array $rows = null)
 	{
