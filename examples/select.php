@@ -11,10 +11,10 @@ echo $b2->select('user', 'id > ?', [10])
 	->column('name')
 	->column('xp')
 	->toString($quote)
-, "\n";
+. "\n";
 
 echo $b2->select('user', 'id = ?', [10])
 	->leftJoin('payment', 'payment.id = user.id')
 	->column($b2->sql('SUM(payment.price * ?)', [10]), 'sum')
 	->toString($quote)
-, "\n";
+. "\n";
