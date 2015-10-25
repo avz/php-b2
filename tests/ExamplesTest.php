@@ -29,4 +29,34 @@ EOF
 		);
 		require_once __DIR__ . '/../examples/update.php';
 	}
+
+	public function testInsert()
+	{
+		$this->expectOutputString(<<<EOF
+INSERT INTO `user`(`id`, `name`) VALUES ('1', 'John')
+INSERT INTO `user`(`id`, `name`) VALUES ('1', 'John')
+INSERT INTO `user`(`id`, `name`) VALUES ('1', 'John')
+INSERT INTO `user`(`id`, `name`) VALUES ('1', 'John'), ('2', 'Ivan')
+INSERT INTO `user`(`id`, `name`) VALUES ('1', 'John'), ('2', 'Ivan')
+INSERT INTO `user`(`id`, `name`) VALUES ('1', 'John'), ('2', 'Ivan')
+INSERT INTO `user`(`id`, `name`) VALUES ('1', 'John') ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `name` = VALUES(`name`)
+INSERT INTO `user`(`age`, `id`, `name`) VALUES ('20', '1', 'John') ON DUPLICATE KEY UPDATE `age` = VALUES(`age`), `name` = VALUES(`name`)
+INSERT INTO `user`(`age`, `id`, `name`) VALUES ('20', '1', 'John') ON DUPLICATE KEY UPDATE `age` = VALUES(`age`), `name` = VALUES(`name`)
+INSERT INTO `counter`(`count`, `name`) VALUES ('1', 'visits') ON DUPLICATE KEY UPDATE `count` = `count` + VALUES(`count`)
+
+EOF
+		);
+		require_once __DIR__ . '/../examples/insert.php';
+	}
+
+	public function testDelete()
+	{
+		$this->expectOutputString(<<<EOF
+DELETE FROM `user` WHERE `id` = '10'
+DELETE FROM `user` WHERE `id` = '10'
+
+EOF
+		);
+		require_once __DIR__ . '/../examples/delete.php';
+	}
 }
