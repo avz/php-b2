@@ -20,4 +20,4 @@ echo $b2->update('user')
 		->where('id', 2)
 		->where('`id` OR `uid`')
 	->toString($quote)
-, "\n";
+. "\n";
