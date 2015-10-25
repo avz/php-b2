@@ -29,6 +29,12 @@ class Select extends \b2\Query
 		$this->where = new Where;
 	}
 
+	/**
+	 *
+	 * @param \b2\Quote $quote
+	 * @return string
+	 * @throws Exception
+	 */
 	public function toString(\b2\Quote $quote)
 	{
 		if (!$this->fields) {
@@ -62,6 +68,13 @@ class Select extends \b2\Query
 		return implode(', ', $list);
 	}
 
+	/**
+	 *
+	 * @param Literal $name
+	 * @param string $alias
+	 * @return \b2\query\Select
+	 * @throws Exception
+	 */
 	public function field($name, $alias = null) {
 		$e = null;
 
@@ -115,10 +128,21 @@ class Select extends \b2\Query
 		return $this;
 	}
 
+	/**
+	 *
+	 * @return \b2\query\Select
+	 */
 	public function allFields() {
 		$this->field('*');
+
+		return $this;
 	}
 
+	/**
+	 *
+	 * @param array $fields
+	 * @return \b2\query\Select
+	 */
 	public function fields(array $fields) {
 		foreach ($fields as $alias => $field) {
 			if (ctype_digit((string)$alias))
