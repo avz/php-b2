@@ -319,9 +319,15 @@ WHERE key1 = '10' OR key2 = '20'
 ```php
 $b2->where('id = ? OR id = ?', [1, 2]);
 ```
+
 ### Named
 ```php
 $b2->where('id = :id1 OR id = :id2', [':id1' => 1, ':id2' => 2]);
+```
+
+### Mixed
+```php
+$b2->where('id = :id1 OR id = ?', [':id1' => 1, 2]);
 ```
 
 ### Lists
