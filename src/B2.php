@@ -3,23 +3,44 @@ namespace b2;
 
 class B2
 {
-	protected function createSelect() {
+	/**
+	 *
+	 * @return \b2\query\Select
+	 */
+	protected function createSelect()
+	{
 		return new query\Select;
 	}
 
-	protected function createUpdate() {
+	/**
+	 *
+	 * @return \b2\query\Update
+	 */
+	protected function createUpdate()
+	{
 		return new query\Update;
 	}
 
-	protected function createInsert() {
+	/**
+	 *
+	 * @return \b2\query\Insert
+	 */
+	protected function createInsert()
+	{
 		return new query\Insert;
 	}
 
-	protected function createDelete() {
+	/**
+	 *
+	 * @return \b2\query\Delete
+	 */
+	protected function createDelete()
+	{
 		return new query\Delete;
 	}
 
-	private function extractWhereDef(Query $query, $args) {
+	private function extractWhereDef(Query $query, $args)
+	{
 		if (sizeof($args) === 1)
 			$query->where($args[0]);
 		else
