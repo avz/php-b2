@@ -14,14 +14,8 @@ class Mysqli extends \b2\Quote
 		$this->connection = $connection;
 	}
 
-	public function constant($any)
+	public function constantString($string)
 	{
-		if (is_null($any)) {
-			return 'NULL';
-		} elseif (is_bool($any)) {
-			return (string)(int)$any;
-		} else {
-			return "'" . $this->connection->escape_string($any) . "'";
-		}
+		return "'" . $this->connection->escape_string($string) . "'";
 	}
 }

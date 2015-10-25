@@ -30,7 +30,18 @@ abstract class Quote
 		return "`$name`";
 	}
 
-	abstract public function constant($any);
+	abstract public function constantString($string);
+
+	public function constant($any)
+	{
+		if (is_null($any)) {
+			return $this->constantNull();
+		} elseif (is_bool($any)) {
+			return $this->constantBool($any);
+		} else {
+			return $this->constantString((string)$any);
+		}
+	}
 
 	/**
 	 * Create instance for specified connection.
@@ -41,5 +52,15 @@ abstract class Quote
 	static public function createFromMysqli(\mysqli $dbConnection)
 	{
 		return new quote\Mysqli($dbConnection);
+	}
+
+	public function constantNull()
+	{
+		return 'NULL';
+	}
+
+	public function constantBool($bool)
+	{
+		return $bool ? '1' : '0';
 	}
 }
