@@ -40,33 +40,58 @@ trait HasJoin {
 	 */
 	private $joins = [];
 
+	/**
+	 *
+	 * @param mixed $table
+	 * @param mixed $condition
+	 * @param mixed $binds
+	 * @return $this
+	 */
 	public function innerJoin($table, $condition, $binds = null) {
 		$t = 'INNER';
 
-		if(func_num_args() > 2)
+		if(func_num_args() > 2) {
 			return $this->join($t, $table, $condition, $binds);
-		else
+		} else {
 			return $this->join($t, $table, $condition);
+		}
 	}
 
+	/**
+	 *
+	 * @param mixed $table
+	 * @param mixed $condition
+	 * @param mixed $binds
+	 * @return $this
+	 */
 	public function leftJoin($table, $condition, $binds = null) {
 		$t = 'LEFT';
 
-		if(func_num_args() > 2)
+		if(func_num_args() > 2) {
 			return $this->join($t, $table, $condition, $binds);
-		else
+		} else {
 			return $this->join($t, $table, $condition);
+		}
 	}
 
+	/**
+	 *
+	 * @param mixed $type
+	 * @param Literal|string $table
+	 * @param mixed $condition
+	 * @return $this
+	 * @throws Exception
+	 */
 	private function join($type, $table, $condition) {
 		$tableExpression = null;
 
-		if ($table instanceof Literal)
+		if ($table instanceof Literal) {
 			$tableExpression = $table;
-		elseif (is_string($table))
+		} elseif (is_string($table)) {
 			$tableExpression = new Identifier($table);
-		else
+		} else {
 			throw new Exception('Table name or Literal expected');
+		}
 
 		$condArgs = array_slice(func_get_args(), 2);
 		$joinCondition = WhereUpdateCommon::extractExpressions($condArgs);
@@ -101,8 +126,9 @@ trait HasJoin {
 	}
 
 	protected function joinsConcatSql(\b2\Quote $quote, $sql) {
-		if ($this->joinsIsEmpty())
+		if ($this->joinsIsEmpty()) {
 			return $sql;
+		}
 
 		return $sql . ' ' . $this->joinsToString($quote);
 	}

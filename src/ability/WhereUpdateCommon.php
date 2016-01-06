@@ -9,6 +9,9 @@ use b2\literal\In;
 use b2\Exception;
 use b2\literal\Identifier;
 
+/**
+ * @internal
+ */
 abstract class WhereUpdateCommon {
 	static private function prepared($prepared, array $binds = [])
 	{

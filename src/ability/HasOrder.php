@@ -10,6 +10,13 @@ trait HasOrder
 {
 	private $orders = [];
 
+	/**
+	 *
+	 * @param Literal $field
+	 * @param string $direction
+	 * @return $this
+	 * @throws Exception
+	 */
 	public function orderBy($field, $direction = 'ASC')
 	{
 		$e = null;

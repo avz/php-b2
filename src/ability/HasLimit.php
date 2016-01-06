@@ -9,6 +9,12 @@ trait HasLimit
 	private $limit = null;
 	private $offset = null;
 
+	/**
+	 *
+	 * @param int $limit
+	 * @return $this
+	 * @throws Exception
+	 */
 	public function limit($limit)
 	{
 		if (!is_int($limit) || $limit <= 0)
@@ -19,6 +25,12 @@ trait HasLimit
 		return $this;
 	}
 
+	/**
+	 *
+	 * @param int $offset
+	 * @return $this
+	 * @throws Exception
+	 */
 	public function offset($offset)
 	{
 		if (!is_int($offset) || $offset <= 0)

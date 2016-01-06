@@ -9,6 +9,12 @@ trait HasWhere
 	 */
 	private $where;
 
+	/**
+	 *
+	 * @param mixed $fieldNameOrPrepared
+	 * @param mixed $valueOrBinds
+	 * @return $this
+	 */
 	public function where($fieldNameOrPrepared, $valueOrBinds = null/* ... */)
 	{
 		$where = clone $this->where;

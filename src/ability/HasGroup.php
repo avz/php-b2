@@ -5,6 +5,13 @@ trait HasGroup
 {
 	private $groups = [];
 
+	/**
+	 *
+	 * @param \b2\Literal $field
+	 * @param string $direction
+	 * @return $this
+	 * @throws \b2\Exception
+	 */
 	public function groupBy($field, $direction = 'ASC')
 	{
 		$e = null;
