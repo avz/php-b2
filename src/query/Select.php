@@ -153,4 +153,9 @@ class Select extends \b2\Query
 
 		return $this;
 	}
+
+	protected function fieldsIsNotSpecified()
+	{
+		return empty($this->fields);
+	}
 }
