@@ -82,4 +82,36 @@ class PlainSqlTest extends \b2\tests\Base
 	public function testInvalidBind() {
 		$ps = new PlainSql('hello', [10]);
 	}
+
+	public function testListUnnamedBinds()
+	{
+		$b = new PlainSql('??', [new \b2\literal\AnyList([new Constant(1), new Constant(2)])]);
+		$this->assertSame("'1', '2'", $b->toString($this->quoter()));
+	}
+
+	public function testListNamedBinds()
+	{
+		$b = new PlainSql('::aa', ['::aa' => new \b2\literal\AnyList([new Constant(1), new Constant(2)])]);
+		$this->assertSame("'1', '2'", $b->toString($this->quoter()));
+	}
+
+	/**
+	 * @expectedException b2\Exception
+	 * @expectedExceptionMessage Literal expected, but AnyList found
+	 */
+	public function testListNamedBindsButNotList()
+	{
+		$b = new PlainSql(':aa', [':aa' => new \b2\literal\AnyList([new Constant(1), new Constant(2)])]);
+		$b->toString($this->quoter());
+	}
+
+	/**
+	 * @expectedException b2\Exception
+	 * @expectedExceptionMessage Literal expected, but AnyList found
+	 */
+	public function testListUnnamedBindsButNotList()
+	{
+		$b = new PlainSql('?', [new \b2\literal\AnyList([new Constant(1), new Constant(2)])]);
+		$b->toString($this->quoter());
+	}
 }

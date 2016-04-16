@@ -5,8 +5,12 @@ use b2\Exception;
 
 class PlainSql extends \b2\Literal
 {
-	static $placeholderRegex = '/\?|:([a-z0-9_]+)/';
+	static $placeholderRegex = '/\?{1,2}|((::?)[a-z0-9_]+)/';
 	private $sql;
+
+	/**
+	 * @var \b2\Literal[]
+	 */
 	private $binds = [];
 
 	public function __construct($sql, array $binds = [])
@@ -30,24 +34,48 @@ class PlainSql extends \b2\Literal
 		$usedKeys = [];
 
 		$plain = preg_replace_callback(
-			self::$placeholderRegex, function($w) use(&$n, &$usedKeys, $quote) {
-			$key = null;
+			self::$placeholderRegex,
+			function($w) use(&$n, &$usedKeys, $quote) {
+				$key = null;
+				$mustBeList = false;
 
-			if ($w[0] === '?') {
-				$key = $n;
-				$n++;
-			} else {
-				$key = ':' . $w[1];
-			}
+				if ($w[0] === '?') {
+					$key = $n;
+					$n++;
+				} else if ($w[0] === '??') {
+					$key = $n;
+					$n++;
+					$mustBeList = true;
+				} else if ($w[2] === ':') {
+					$key = $w[1];
+				} else if ($w[2] === '::') {
+					$key = $w[1];
+					$mustBeList = true;
+				} else {
+					throw new Exception('Impossible case');
+				}
 
-			if (!array_key_exists($key, $this->binds)) {
-				throw new Exception("Bind key $key was not found");
-			}
+				if (!array_key_exists($key, $this->binds)) {
+					throw new Exception("Bind key $key was not found");
+				}
 
-			$usedKeys[$key] = $key;
+				$usedKeys[$key] = $key;
 
-			return $this->binds[$key]->toString($quote);
-		}, $this->sql
+				$value = $this->binds[$key];
+
+				if ($mustBeList) {
+					if (!($value instanceof AnyList)) {
+						throw new Exception('AnyList expected, but ' . get_class($value) . ' found');
+					}
+				} else {
+					if ($value instanceof AnyList) {
+						throw new Exception('Literal expected, but AnyList found');
+					}
+				}
+
+				return $value->toString($quote);
+			},
+			$this->sql
 		);
 
 		$unusedKeys = array_diff(array_keys($this->binds), $usedKeys);

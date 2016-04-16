@@ -68,4 +68,19 @@ class WhereUpdateCommonTest extends \b2\tests\Base
 
 		$this->assertEquals([new BiOperation(new Identifier('field'), '=', new Constant('value'))], $r);
 	}
+
+	public function testList()
+	{
+		$r = WhereUpdateCommon::extractExpressions(['? = ??', [1, [2, 3]]]);
+		$this->assertEquals(
+			[new PlainSql('? = ??', [
+				new Constant(1),
+				new \b2\literal\AnyList([
+					new Constant(2),
+					new Constant(3),
+				])
+			])],
+			$r
+		);
+	}
 }

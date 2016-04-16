@@ -39,6 +39,15 @@ class QuoteTest extends \b2\tests\Base
 		$this->assertSame('col1 + col2', $this->quoter()->identifier(new \b2\literal\PlainSql('col1 + col2')));
 	}
 
+	public function testValuesList()
+	{
+		$this->assertSame("'hello', 'world'", $this->quoter()->values(['hello', 'world']));
+	}
+
+	/**
+	 * @expectedException \b2\Exception
+	 * @expectedExceptionMessage Value cannot be an array
+	 */
 	public function testValueList()
 	{
 		$this->assertSame("'hello', 'world'", $this->quoter()->value(['hello', 'world']));

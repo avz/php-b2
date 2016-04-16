@@ -17,6 +17,15 @@ abstract class WhereUpdateCommon {
 	{
 		$binds = array_map(
 			function ($value) {
+				if (is_array($value)) {
+					$list = [];
+					foreach ($value as $v) {
+						$list[] = new Constant($v);
+					}
+
+					return new \b2\literal\AnyList($list);
+				}
+
 				return new Constant($value);
 			},
 			$binds

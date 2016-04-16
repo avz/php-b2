@@ -119,7 +119,7 @@ $b2->select('user')->field('id')->orderBy('level', 'DESC');
 SELECT `id` FROM `user` ORDER BY `level` DESC
 ```
 
-Group by multiple columns
+Ordering by multiple columns
 ```php
 $b2->select('user')->field('id')
 	->orderBy('level', 'DESC')
@@ -283,7 +283,7 @@ $select->where('key', 'value');
 // or
 $select->where(['key' => 'value']);
 
-//or
+// or
 $select->where('`key` = ?', ['value']);
 ```
 ```sql
@@ -334,7 +334,7 @@ $b2->where('id = :id1 OR id = ?', [':id1' => 1, 2]);
 
 ### Lists
 ```php
-$b2->where('id IN(:ids)', [':ids' => [1, 2, 3]]);
+$b2->where('id IN(::ids)', ['::ids' => [1, 2, 3]]);
 ```
 ```sql
 id IN('1', '2', '3')

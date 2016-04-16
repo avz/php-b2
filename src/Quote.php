@@ -6,12 +6,17 @@ abstract class Quote
 	public function value($any)
 	{
 		if (is_array($any)) {
-			return implode(', ', array_map([$this, 'value'], $any));
+			throw new Exception('Value cannot be an array');
 		} elseif ($any instanceof Literal) {
 			return $any->toString($this);
 		} else {
 			return $this->constant($any);
 		}
+	}
+
+	public function values(array $list)
+	{
+		return implode(', ', array_map([$this, 'value'], $list));
 	}
 
 	public function identifier($any)
